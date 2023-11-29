@@ -1,5 +1,8 @@
 package com.mohamedcode13.paintbackend.models;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public abstract class AbstractShape {
     private int id;
     private int x;
