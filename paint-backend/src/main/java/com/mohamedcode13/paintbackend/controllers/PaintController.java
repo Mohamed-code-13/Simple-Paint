@@ -35,9 +35,9 @@ public class PaintController {
 
     @PostMapping(path = "/color")
     public AbstractShape color(@RequestBody Map<String, Object> body) {
-        int id = (int)body.get("id");
+        int curId = (int)body.get("id");
         String color = (String)body.get("color");
-        int index = getShapeIndex(id);
+        int index = getShapeIndex(curId);
 
         allShapes.get(index).setColor(color);
         return allShapes.get(index);
@@ -45,10 +45,10 @@ public class PaintController {
 
     @PostMapping(path = "/move")
     public AbstractShape move(@RequestBody Map<String, Object> body) {
-        int id = (int)body.get("id");
+        int curId = (int)body.get("id");
         int x = (int)body.get("x");
         int y = (int)body.get("y");
-        int index = getShapeIndex(id);
+        int index = getShapeIndex(curId);
 
         allShapes.get(index).setPosition(x, y);
         return allShapes.get(index);
@@ -56,8 +56,8 @@ public class PaintController {
 
     @PostMapping(path = "/delete")
     public boolean delete(@RequestBody Map<String, Object> body) {
-        int id = (int)body.get("id");
-        int index = getShapeIndex(id);
+        int curId = (int)body.get("id");
+        int index = getShapeIndex(curId);
 
         allShapes.remove(allShapes.get(index));
         return true;
@@ -65,9 +65,9 @@ public class PaintController {
 
     @PostMapping(path = "/rotate")
     public AbstractShape rotate(@RequestBody Map<String, Object> body) {
-        int id = (int)body.get("id");
+        int curId = (int)body.get("id");
         int rotate = (int)body.get("rotate");
-        int index = getShapeIndex(id);
+        int index = getShapeIndex(curId);
 
         allShapes.get(index).setRotate(rotate);
         return allShapes.get(index);
@@ -75,24 +75,26 @@ public class PaintController {
 
     @PostMapping(path = "/resize")
     public boolean resize(@RequestBody Map<String, Object> body) {
-//        int id = (int)body.get("id");
-//        int index = getShapeIndex(id);
+//        int curId = (int)body.get("id");
+//        int index = getShapeIndex(curId);
 
         return true;
     }
 
     @PostMapping(path = "/copy")
-    public boolean copy(@RequestBody Map<String, Object> body) {
-//        int id = (int)body.get("id");
-//        int index = getShapeIndex(id);
+    public AbstractShape copy(@RequestBody Map<String, Object> body) {
+        int curId = (int)body.get("id");
+        int index = getShapeIndex(curId);
 
-//        allShapes.remove(allShapes.get(index));
-        return true;
+        AbstractShape shape = allShapes.get(index).clone();
+        shape.setId(id++);
+        allShapes.add(shape);
+        return shape;
     }
 
-    private int getShapeIndex(int id) {
+    private int getShapeIndex(int curId) {
         for (int i = 0; i < allShapes.size(); ++i) {
-            if (allShapes.get(i).getId() == id) {
+            if (allShapes.get(i).getId() == curId) {
                 return i;
             }
         }

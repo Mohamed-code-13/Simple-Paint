@@ -11,8 +11,17 @@ public class Circle extends AbstractShape {
         this.radius = 50;
     }
 
+    public Circle(int id, int x, int y, int rotate, String color, String type, int radius) {
+        super(id, x, y, rotate, color, type);
+        this.radius = radius;
+    }
+
     public int getRadius() {
         return this.radius;
     }
 
+    @Override
+    public AbstractShape clone() {
+        return new Circle(getId(), getX(), getY(), getRotate(), getColor(), getType(), getRadius());
+    }
 }

@@ -13,6 +13,12 @@ public class Rectangle extends AbstractShape {
         this.height = 50;
     }
 
+    public Rectangle(int id, int x, int y, int rotate, String color, String type, int width, int height) {
+        super(id, x, y, rotate, color, type);
+        this.width = width;
+        this.height = height;
+    }
+
     public int getWidth() {
         return width;
     }
@@ -21,4 +27,8 @@ public class Rectangle extends AbstractShape {
         return height;
     }
 
+    @Override
+    public AbstractShape clone() {
+        return new Rectangle(getId(), getX(), getY(), getRotate(), getColor(), getType(), getWidth(), getHeight());
+    }
 }

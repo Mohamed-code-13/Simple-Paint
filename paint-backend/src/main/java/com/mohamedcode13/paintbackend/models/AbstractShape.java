@@ -44,6 +44,10 @@ public abstract class AbstractShape {
         return type;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
@@ -56,5 +60,7 @@ public abstract class AbstractShape {
     public void setColor(String color) {
         this.color = color;
     }
+
+    public abstract AbstractShape clone();
 }
 
