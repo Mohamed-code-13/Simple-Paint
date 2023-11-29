@@ -7,10 +7,10 @@ public class Ellipse extends AbstractShape {
     private int bigRadius;
     private int smallRadius;
 
-    public Ellipse(int id, int x, int y, int rotate, String color, int bigRadius, int smallRadius) {
-        super(id, x, y, rotate, color, "ellipse");
-        this.bigRadius = bigRadius;
-        this.smallRadius = smallRadius;
+    public Ellipse(int id, int x, int y) {
+        super(id, x, y,  0, "#EEE", "ellipse");
+        this.bigRadius = 100;
+        this.smallRadius = 50;
     }
 
     public int getBigRadius() {

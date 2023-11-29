@@ -7,10 +7,10 @@ public class Rectangle extends AbstractShape {
     private int width;
     private int height;
 
-    public Rectangle(int id, int x, int y, int rotate, String color, int width, int height) {
-        super(id, x, y, rotate, color, "rectangle");
-        this.width = width;
-        this.height = height;
+    public Rectangle(int id, int x, int y) {
+        super(id, x, y,0,"EEE", "rectangle");
+        this.width = 100;
+        this.height = 50;
     }
 
     public int getWidth() {
