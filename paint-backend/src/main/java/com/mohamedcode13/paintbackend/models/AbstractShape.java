@@ -1,6 +1,6 @@
 package com.mohamedcode13.paintbackend.models;
 
-public class Shape {
+public abstract class AbstractShape {
     private int id;
     private int x;
     private int y;
@@ -8,7 +8,7 @@ public class Shape {
     private String color;
     private String type;
 
-    public Shape(int id, int x, int y, int rotate, String color, String type) {
+    public AbstractShape(int id, int x, int y, int rotate, String color, String type) {
         this.id = id;
         this.x = x;
         this.y = y;
