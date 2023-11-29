@@ -48,5 +48,13 @@ public abstract class AbstractShape {
         this.x = x;
         this.y = y;
     }
+
+    public void setRotate(int rotate) {
+        this.rotate = rotate;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }
 
