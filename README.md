@@ -1,1 +1,1 @@
-"# Simple Paint" 
+# Simple Paint
