@@ -2,7 +2,7 @@ package com.mohamedcode13.paintbackend.models;
 
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class Line extends AbstractShape {
     private int width;
 

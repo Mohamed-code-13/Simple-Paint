@@ -2,7 +2,7 @@ package com.mohamedcode13.paintbackend.models;
 
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class Rectangle extends AbstractShape {
     private int width;
     private int height;
