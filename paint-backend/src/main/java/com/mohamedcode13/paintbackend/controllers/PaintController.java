@@ -11,6 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PaintController {
 
     private int id = 0;
@@ -78,6 +79,16 @@ public class PaintController {
 //        int curId = (int)body.get("id");
 //        int index = getShapeIndex(curId);
 
+        return true;
+    }
+
+    @GetMapping(path = "/undo")
+    public boolean undo() {
+        return true;
+    }
+
+    @GetMapping(path = "/redo")
+    public boolean redo() {
         return true;
     }
 
