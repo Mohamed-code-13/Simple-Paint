@@ -8,6 +8,7 @@
     <div class="rightcolumn">
       <CanvasComponent
         :shapes="shapes"
+        :drawingMode="drawingMode"
         :key="JSON.stringify(shapes)"
         @createShape="createShape"
         @modifyShape="modifyShape"
@@ -93,9 +94,32 @@ export default {
 
       await this.getAllShapes();
     },
+    async deleteShape(shapeId) {
+      const dUrl = apiUrl + "/delete";
+
+      await fetch(dUrl, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: shapeId,
+        }),
+      });
+
+      await this.getAllShapes();
+    },
     modifyShape(e) {
-      console.log(e);
-      console.log(this.shapeClicked(e[0], e[1]));
+      const shapeID = this.shapeClicked(e[0], e[1]);
+      if (shapeID == -1) {
+        return;
+      }
+      switch (this.selectedOption) {
+        case "delete":
+          this.deleteShape(shapeID);
+          break;
+      }
     },
     shapeClicked(x, y) {
       for (let i = this.shapes.length - 1; i >= 0; --i) {

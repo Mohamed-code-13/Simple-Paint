@@ -9,6 +9,7 @@ export default {
   name: "CanvasComponent",
   props: {
     shapes: Array,
+    drawingMode: Boolean,
   },
   data() {
     return {
@@ -87,9 +88,11 @@ export default {
       this.ctx.stroke();
     },
     mousedown(e) {
-      // console.log(e.offsetX, e.offsetY);
-      // this.$emit("createShape", [e.offsetX, e.offsetY]);
-      this.$emit("modifyShape", [e.offsetX, e.offsetY]);
+      if (this.drawingMode) {
+        this.$emit("createShape", [e.offsetX, e.offsetY]);
+      } else {
+        this.$emit("modifyShape", [e.offsetX, e.offsetY]);
+      }
     },
   },
 };
