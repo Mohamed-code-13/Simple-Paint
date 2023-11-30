@@ -110,12 +110,31 @@ export default {
 
       await this.getAllShapes();
     },
+    async copyShape(shapeId) {
+      const dUrl = apiUrl + "/copy";
+
+      await fetch(dUrl, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: shapeId,
+        }),
+      });
+
+      await this.getAllShapes();
+    },
     modifyShape(e) {
       const shapeID = this.shapeClicked(e[0], e[1]);
       if (shapeID == -1) {
         return;
       }
       switch (this.selectedOption) {
+        case "copy":
+          this.copyShape(shapeID);
+          break;
         case "delete":
           this.deleteShape(shapeID);
           break;

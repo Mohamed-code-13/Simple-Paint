@@ -105,6 +105,8 @@ public class PaintController {
 
         AbstractShape shape = allShapes.get(index).clone();
         shape.setId(id++);
+        shape.setPosition(20, 20);
+        
         allShapes.add(shape);
         return shape;
     }
