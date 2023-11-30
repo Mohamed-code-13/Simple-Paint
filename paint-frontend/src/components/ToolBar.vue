@@ -1,7 +1,12 @@
 <template>
   <div id="tool-bar">
     <div class="grid-container">
-      <button v-for="option in allOptions" :key="option" class="grid-item">
+      <button
+        v-for="option in allOptions"
+        :key="option"
+        @click="changeOption(option)"
+        :class="{ 'grid-item': true, selected: option === selectedOption }"
+      >
         {{ option }}
       </button>
     </div>
@@ -11,6 +16,14 @@
 <script>
 export default {
   name: "ToolBar",
+  props: {
+    selectedOption: String,
+  },
+  methods: {
+    changeOption(option) {
+      this.$emit("changeOption", option);
+    },
+  },
   computed: {
     allOptions() {
       return ["color", "move", "rotate", "resize", "copy", "delete"];
@@ -39,5 +52,9 @@ export default {
   font-weight: bold;
   font-size: 18px;
   border-radius: 12px;
+}
+.selected {
+  background: rgb(224, 97, 24);
+  color: #fff;
 }
 </style>

@@ -87,7 +87,9 @@ export default {
       this.ctx.stroke();
     },
     mousedown(e) {
-      this.$emit("createShape", [e.offsetX, e.offsetY]);
+      // console.log(e.offsetX, e.offsetY);
+      // this.$emit("createShape", [e.offsetX, e.offsetY]);
+      this.$emit("modifyShape", [e.offsetX, e.offsetY]);
     },
   },
 };
@@ -95,8 +97,8 @@ export default {
 
 <style scoped>
 #canvas-component #myCanvas {
-  height: 100%;
-  width: 100%;
+  /* height: 100%; */
+  /* width: 100%; */
   border: 2px solid red;
 }
 </style>

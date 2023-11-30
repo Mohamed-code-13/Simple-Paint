@@ -1,5 +1,5 @@
 <template>
-  <ToolBar />
+  <ToolBar :selectedOption="selectedOption" @changeOption="changeOption" />
   <div class="wrapper">
     <div class="leftcolumn">
       <ShapePicker :selectedShape="selectedShape" @changeShape="changeShape" />
@@ -10,6 +10,7 @@
         :shapes="shapes"
         :key="JSON.stringify(shapes)"
         @createShape="createShape"
+        @modifyShape="modifyShape"
       />
     </div>
   </div>
@@ -34,6 +35,8 @@ export default {
   data() {
     return {
       selectedShape: "line",
+      selectedOption: "",
+      drawingMode: true,
       shapes: [],
     };
   },
@@ -43,6 +46,13 @@ export default {
   methods: {
     changeShape(s) {
       this.selectedShape = s;
+      this.selectedOption = "";
+      this.drawingMode = true;
+    },
+    changeOption(o) {
+      this.selectedOption = o;
+      this.selectedShape = "";
+      this.drawingMode = false;
     },
     changeEdit(e) {
       switch (e) {
@@ -82,6 +92,86 @@ export default {
       await fetch(dUrl);
 
       await this.getAllShapes();
+    },
+    modifyShape(e) {
+      console.log(e);
+      console.log(this.shapeClicked(e[0], e[1]));
+    },
+    shapeClicked(x, y) {
+      for (let i = this.shapes.length - 1; i >= 0; --i) {
+        const shape = this.shapes[i];
+        const res = this.detectShape(x, y, shape);
+
+        if (res != -1) {
+          return res;
+        }
+      }
+      return -1;
+    },
+    detectShape(x, y, shape) {
+      const type = shape["type"];
+      switch (type) {
+        case "square":
+          if (this.detectSquare(x, y, shape)) {
+            return shape["id"];
+          }
+          break;
+        case "rectangle":
+          if (this.detectRectangle(x, y, shape)) {
+            return shape["id"];
+          }
+          break;
+        case "line":
+          if (this.detectLine(x, y, shape)) {
+            return shape["id"];
+          }
+          break;
+        case "circle":
+          if (this.detectCircle(x, y, shape)) {
+            return shape["id"];
+          }
+          break;
+        case "ellipse":
+          if (this.detectEllipse(x, y, shape)) {
+            return shape["id"];
+          }
+          break;
+      }
+      return -1;
+    },
+    detectSquare(x, y, shape) {
+      return (
+        x >= shape["x"] &&
+        x <= shape["x"] + shape["width"] &&
+        y >= shape["y"] &&
+        y <= shape["y"] + shape["width"]
+      );
+    },
+    detectRectangle(x, y, shape) {
+      return (
+        x >= shape["x"] &&
+        x <= shape["x"] + shape["width"] &&
+        y >= shape["y"] &&
+        y <= shape["y"] + shape["height"]
+      );
+    },
+    detectLine(x, y, shape) {
+      return (
+        x >= shape["x"] && x <= shape["x"] + shape["width"] && y == shape["y"]
+      );
+    },
+    detectCircle(x, y, shape) {
+      return (
+        Math.pow(x - shape["x"], 2) + Math.pow(y - shape["y"], 2) <=
+        Math.pow(shape["radius"], 2)
+      );
+    },
+    detectEllipse(x, y, shape) {
+      return (
+        Math.pow(x - shape["x"], 2) / Math.pow(shape["bigRadius"], 2) +
+          Math.pow(y - shape["y"], 2) / Math.pow(shape["smallRadius"], 2) <=
+        1
+      );
     },
   },
 };
