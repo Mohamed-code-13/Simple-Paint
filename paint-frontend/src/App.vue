@@ -3,6 +3,7 @@
   <div class="wrapper">
     <div class="leftcolumn">
       <ShapePicker :selectedShape="selectedShape" @changeShape="changeShape" />
+      <EditBar @changeEdit="changeEdit" />
     </div>
     <div class="rightcolumn">
       <CanvasComponent
@@ -18,20 +19,37 @@
 import ShapePicker from "./components/ShapePicker.vue";
 import ToolBar from "./components/ToolBar.vue";
 import CanvasComponent from "./components/CanvasComponent.vue";
+import EditBar from "./components/EditBar.vue";
 
 const apiUrl = "http://localhost:8080";
 
 export default {
   name: "App",
+  components: {
+    ShapePicker,
+    ToolBar,
+    CanvasComponent,
+    EditBar,
+  },
   data() {
     return {
       selectedShape: "line",
       shapes: [],
     };
   },
+  mounted() {
+    this.getAllShapes();
+  },
   methods: {
     changeShape(s) {
       this.selectedShape = s;
+    },
+    changeEdit(e) {
+      switch (e) {
+        case "clear":
+          this.deleteAll();
+          break;
+      }
     },
     async createShape(e) {
       const cUrl = apiUrl + "/create";
@@ -58,11 +76,13 @@ export default {
 
       this.shapes = await response.json();
     },
-  },
-  components: {
-    ShapePicker,
-    ToolBar,
-    CanvasComponent,
+    async deleteAll() {
+      const dUrl = apiUrl + "/clear";
+
+      await fetch(dUrl);
+
+      await this.getAllShapes();
+    },
   },
 };
 </script>
@@ -87,7 +107,7 @@ body {
 
 .wrapper {
   margin: 0 auto;
-  height: calc(100% - 110px);
+  height: 70%;
   width: 100%;
   grid-row: 1;
 }

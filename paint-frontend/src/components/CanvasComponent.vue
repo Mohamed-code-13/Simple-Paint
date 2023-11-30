@@ -94,7 +94,7 @@ export default {
 </script>
 
 <style scoped>
-#canvas-component {
+#canvas-component #myCanvas {
   height: 100%;
   width: 100%;
   border: 2px solid red;

@@ -74,6 +74,12 @@ public class PaintController {
         return allShapes.get(index);
     }
 
+    @GetMapping(path = "/clear")
+    public boolean clear() {
+        allShapes.clear();
+        return true;
+    }
+
     @PostMapping(path = "/resize")
     public boolean resize(@RequestBody Map<String, Object> body) {
 //        int curId = (int)body.get("id");

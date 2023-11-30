@@ -1,5 +1,6 @@
 <template>
   <div id="shapePicker">
+    <div class="title">Shapes</div>
     <div class="grid-container">
       <button
         v-for="shape in allShapes"
@@ -33,10 +34,16 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: 2px solid black;
+}
 #shapePicker {
   background: #e08484;
   width: 100px;
-  height: 100%;
+  /* height: 100%; */
 }
 .grid-container {
   display: grid;

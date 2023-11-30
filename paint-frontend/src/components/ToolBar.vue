@@ -13,18 +13,7 @@ export default {
   name: "ToolBar",
   computed: {
     allOptions() {
-      return [
-        "color",
-        "move",
-        "delete",
-        "rotate",
-        "resize",
-        "copy",
-        "undo",
-        "redo",
-        "save",
-        "load",
-      ];
+      return ["color", "move", "rotate", "resize", "copy", "delete"];
     },
   },
 };
