@@ -172,6 +172,19 @@ public class PaintController {
         return shape;
     }
 
+    @PostMapping(path = "/clear")
+    public boolean clear() {
+        Action action = new Action();
+        action.setBefore(this.allShapes);
+
+        allShapes.clear();
+
+        action.addAfter(null);
+        undoStack.push(action);
+
+        return true;
+    }
+
     private int getShapeIndex(int curId) {
         for (int i = 0; i < allShapes.size(); ++i) {
             if (allShapes.get(i).getId() == curId) {
