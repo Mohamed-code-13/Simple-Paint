@@ -1,5 +1,6 @@
 package com.mohamedcode13.paintbackend.controllers;
 
+import com.mohamedcode13.paintbackend.controllers.actions.Action;
 import com.mohamedcode13.paintbackend.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 @RestController
 @RequestMapping("/")
@@ -17,12 +19,25 @@ public class PaintController {
     private ShapeFactory shapeFactory;
     private List<AbstractShape> allShapes = new ArrayList<>();
 
+    private Stack<Action> undoStack = new Stack<>();
+    private Stack<Action> redoStack = new Stack<>();
+
     @PostMapping(path = "/create")
     public AbstractShape create(@RequestBody Map<String, Object> body) {
+
+
         int x = (int)body.get("x");
         int y = (int)body.get("y");
         String type = (String)body.get("type");
+
+        Action action = new Action();
+        action.addBefore(null);
+
         AbstractShape shape = shapeFactory.createShape(id++, x, y, type);
+
+        action.addAfter(shape);
+        undoStack.push(action);
+
         allShapes.add(shape);
         return shape;
     }
@@ -38,7 +53,14 @@ public class PaintController {
         String color = (String)body.get("color");
         int index = getShapeIndex(curId);
 
+        Action action = new Action();
+        action.addBefore(allShapes.get(index));
+
         allShapes.get(index).setColor(color);
+
+        action.addAfter(allShapes.get(index));
+        undoStack.push(action);
+
         return allShapes.get(index);
     }
 
@@ -49,7 +71,14 @@ public class PaintController {
         int y = (int)body.get("y");
         int index = getShapeIndex(curId);
 
+        Action action = new Action();
+        action.addBefore(allShapes.get(index));
+
         allShapes.get(index).setPosition(x, y);
+
+        action.addAfter(allShapes.get(index));
+        undoStack.push(action);
+
         return allShapes.get(index);
     }
 
@@ -58,7 +87,14 @@ public class PaintController {
         int curId = (int)body.get("id");
         int index = getShapeIndex(curId);
 
+        Action action = new Action();
+        action.addBefore(allShapes.get(index));
+
         allShapes.remove(allShapes.get(index));
+
+        action.addAfter(null);
+        undoStack.push(action);
+
         return true;
     }
 
@@ -68,7 +104,14 @@ public class PaintController {
         int rotate = (int)body.get("rotate");
         int index = getShapeIndex(curId);
 
+        Action action = new Action();
+        action.addBefore(allShapes.get(index));
+
         allShapes.get(index).setRotate(rotate);
+
+        action.addAfter(allShapes.get(index));
+        undoStack.push(action);
+
         return allShapes.get(index);
     }
 
@@ -77,7 +120,8 @@ public class PaintController {
         int curId = (int)body.get("id");
         int index = getShapeIndex(curId);
 
-
+        Action action = new Action();
+        action.addBefore(allShapes.get(index));
 
         int width, height, radius, bigRadius, smallRadius;
         switch(allShapes.get(index).getType()) {
@@ -110,6 +154,9 @@ public class PaintController {
             default:
                 throw new IllegalArgumentException("Unhandled shape");
         }
+
+        action.addAfter(allShapes.get(index));
+        undoStack.push(action);
 
         return true;
     }
