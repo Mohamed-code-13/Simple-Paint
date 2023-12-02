@@ -12,6 +12,8 @@ public class Action {
 
     private final ActionType ActionType;
 
+
+
     public enum ActionType {
         ChangeAllShapes,
         ChangeOneShape,
@@ -27,6 +29,9 @@ public class Action {
         this.ActionType = actionType;
         this.before = new ArrayList<>();
         this.after  = new ArrayList<>();
+    }
+    public ActionType getActionType() {
+        return ActionType;
     }
 
 
