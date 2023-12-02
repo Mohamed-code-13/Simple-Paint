@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import static com.mohamedcode13.paintbackend.controllers.actions.Action.ActionType.*;
+
 @RestController
 @RequestMapping("/")
 public class PaintController {
@@ -26,11 +28,11 @@ public class PaintController {
     public AbstractShape create(@RequestBody Map<String, Object> body) {
 
 
-        int x = (int)body.get("x");
-        int y = (int)body.get("y");
-        String type = (String)body.get("type");
+        int x = (int) body.get("x");
+        int y = (int) body.get("y");
+        String type = (String) body.get("type");
 
-        Action action = new Action();
+        Action action = new Action(AddShape);
         action.addBefore(null);
 
         AbstractShape shape = shapeFactory.createShape(id++, x, y, type);
@@ -49,11 +51,11 @@ public class PaintController {
 
     @PostMapping(path = "/color")
     public AbstractShape color(@RequestBody Map<String, Object> body) {
-        int curId = (int)body.get("id");
-        String color = (String)body.get("color");
+        int curId = (int) body.get("id");
+        String color = (String) body.get("color");
         int index = getShapeIndex(curId);
 
-        Action action = new Action();
+        Action action = new Action(ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.get(index).setColor(color);
@@ -66,12 +68,12 @@ public class PaintController {
 
     @PostMapping(path = "/move")
     public AbstractShape move(@RequestBody Map<String, Object> body) {
-        int curId = (int)body.get("id");
-        int x = (int)body.get("x");
-        int y = (int)body.get("y");
+        int curId = (int) body.get("id");
+        int x = (int) body.get("x");
+        int y = (int) body.get("y");
         int index = getShapeIndex(curId);
 
-        Action action = new Action();
+        Action action = new Action(ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.get(index).setPosition(x, y);
@@ -84,10 +86,10 @@ public class PaintController {
 
     @PostMapping(path = "/delete")
     public boolean delete(@RequestBody Map<String, Object> body) {
-        int curId = (int)body.get("id");
+        int curId = (int) body.get("id");
         int index = getShapeIndex(curId);
 
-        Action action = new Action();
+        Action action = new Action(DeleteShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.remove(allShapes.get(index));
@@ -100,11 +102,11 @@ public class PaintController {
 
     @PostMapping(path = "/rotate")
     public AbstractShape rotate(@RequestBody Map<String, Object> body) {
-        int curId = (int)body.get("id");
-        int rotate = (int)body.get("rotate");
+        int curId = (int) body.get("id");
+        int rotate = (int) body.get("rotate");
         int index = getShapeIndex(curId);
 
-        Action action = new Action();
+        Action action = new Action(ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.get(index).setRotate(rotate);
@@ -117,39 +119,39 @@ public class PaintController {
 
     @PostMapping(path = "/resize")
     public boolean resize(@RequestBody Map<String, Object> body) {
-        int curId = (int)body.get("id");
+        int curId = (int) body.get("id");
         int index = getShapeIndex(curId);
 
-        Action action = new Action();
+        Action action = new Action(ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         int width, height, radius, bigRadius, smallRadius;
-        switch(allShapes.get(index).getType()) {
+        switch (allShapes.get(index).getType()) {
 
             case "square":
-                width = (int)body.get("width");
-                ((Square)allShapes.get(index)).setWidth(width);
+                width = (int) body.get("width");
+                ((Square) allShapes.get(index)).setWidth(width);
                 break;
             case "rectangle":
-                width = (int)body.get("width");
-                height = (int)body.get("height");
+                width = (int) body.get("width");
+                height = (int) body.get("height");
 
-                ((Rectangle)allShapes.get(index)).setWidth(width);
-                ((Rectangle)allShapes.get(index)).setHeight(height);
+                ((Rectangle) allShapes.get(index)).setWidth(width);
+                ((Rectangle) allShapes.get(index)).setHeight(height);
                 break;
             case "line":
-                width = (int)body.get("width");
-                ((Line)allShapes.get(index)).setWidth(width);
+                width = (int) body.get("width");
+                ((Line) allShapes.get(index)).setWidth(width);
                 break;
             case "circle":
-                radius = (int)body.get("radius");
-                ((Circle)allShapes.get(index)).setRadius(radius);
+                radius = (int) body.get("radius");
+                ((Circle) allShapes.get(index)).setRadius(radius);
                 break;
             case "ellipse":
-                bigRadius = (int)body.get("bigRadius");
-                smallRadius = (int)body.get("smallRadius");
-                ((Ellipse)allShapes.get(index)).setBigRadius(bigRadius);
-                ((Ellipse)allShapes.get(index)).setSmallRadius(smallRadius);
+                bigRadius = (int) body.get("bigRadius");
+                smallRadius = (int) body.get("smallRadius");
+                ((Ellipse) allShapes.get(index)).setBigRadius(bigRadius);
+                ((Ellipse) allShapes.get(index)).setSmallRadius(smallRadius);
                 break;
             default:
                 throw new IllegalArgumentException("Unhandled shape");
@@ -163,7 +165,7 @@ public class PaintController {
 
     @PostMapping(path = "/copy")
     public AbstractShape copy(@RequestBody Map<String, Object> body) {
-        int curId = (int)body.get("id");
+        int curId = (int) body.get("id");
         int index = getShapeIndex(curId);
 
         AbstractShape shape = allShapes.get(index).clone();
@@ -174,7 +176,7 @@ public class PaintController {
 
     @PostMapping(path = "/clear")
     public boolean clear() {
-        Action action = new Action();
+        Action action = new Action(ChangeAllShapes);
         action.setBefore(this.allShapes);
 
         allShapes.clear();
@@ -184,6 +186,38 @@ public class PaintController {
 
         return true;
     }
+
+
+
+
+
+    private boolean performAction(Action action) {
+
+        switch(action.getActionType()) {
+            case ChangeAllShapes:
+                this.allShapes = action.getAfter();
+                break;
+            case ChangeOneShape:
+                int index = getShapeIndex(action.getBefore().get(0).getId());
+                this.allShapes.set(index, action.getAfter().get(0));
+                break;
+            case AddShape:
+                this.allShapes.add(action.getAfter().get(0));
+                break;
+            case DeleteShape:
+                this.allShapes.remove(action.getBefore().get(0));
+                break;
+
+        }
+        return true;
+
+
+    }
+
+
+
+
+
 
     private int getShapeIndex(int curId) {
         for (int i = 0; i < allShapes.size(); ++i) {
