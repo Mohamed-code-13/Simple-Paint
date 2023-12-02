@@ -39,6 +39,7 @@ public class PaintController {
 
         action.addAfter(shape);
         undoStack.push(action);
+        redoStack.clear();
 
         allShapes.add(shape);
         return shape;
@@ -62,6 +63,7 @@ public class PaintController {
 
         action.addAfter(allShapes.get(index));
         undoStack.push(action);
+        redoStack.clear();
 
         return allShapes.get(index);
     }
@@ -80,6 +82,7 @@ public class PaintController {
 
         action.addAfter(allShapes.get(index));
         undoStack.push(action);
+        redoStack.clear();
 
         return allShapes.get(index);
     }
@@ -96,6 +99,7 @@ public class PaintController {
 
         action.addAfter(null);
         undoStack.push(action);
+        redoStack.clear();
 
         return true;
     }
@@ -113,6 +117,7 @@ public class PaintController {
 
         action.addAfter(allShapes.get(index));
         undoStack.push(action);
+        redoStack.clear();
 
         return allShapes.get(index);
     }
@@ -159,6 +164,7 @@ public class PaintController {
 
         action.addAfter(allShapes.get(index));
         undoStack.push(action);
+        redoStack.clear();
 
         return true;
     }
@@ -183,6 +189,7 @@ public class PaintController {
 
         action.addAfter(null);
         undoStack.push(action);
+        redoStack.clear();
 
         return true;
     }
