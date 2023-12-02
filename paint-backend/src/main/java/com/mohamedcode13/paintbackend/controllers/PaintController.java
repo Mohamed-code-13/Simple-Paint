@@ -187,6 +187,25 @@ public class PaintController {
         return true;
     }
 
+    @PostMapping(path = "/undo")
+    void undo() {
+        if (undoStack.isEmpty()) {
+            return;
+        }
+        Action action = undoStack.pop();
+        redoStack.push(action.reversedCopy());
+        performAction(action.reversedCopy());
+    }
+
+    @PostMapping(path = "/redo")
+    void redo() {
+        if (redoStack.isEmpty()) {
+            return;
+        }
+        Action action = redoStack.pop();
+        undoStack.push(action.reversedCopy());
+        performAction(action.reversedCopy());
+    }
 
 
 
