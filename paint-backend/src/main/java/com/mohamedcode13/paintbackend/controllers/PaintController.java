@@ -1,7 +1,6 @@
 package com.mohamedcode13.paintbackend.controllers;
 
-import com.mohamedcode13.paintbackend.models.AbstractShape;
-import com.mohamedcode13.paintbackend.models.ShapeFactory;
+import com.mohamedcode13.paintbackend.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,8 +74,42 @@ public class PaintController {
 
     @PostMapping(path = "/resize")
     public boolean resize(@RequestBody Map<String, Object> body) {
-//        int curId = (int)body.get("id");
-//        int index = getShapeIndex(curId);
+        int curId = (int)body.get("id");
+        int index = getShapeIndex(curId);
+
+
+
+        int width, height, radius, bigRadius, smallRadius;
+        switch(allShapes.get(index).getType()) {
+
+            case "square":
+                width = (int)body.get("width");
+                ((Square)allShapes.get(index)).setWidth(width);
+                break;
+            case "rectangle":
+                width = (int)body.get("width");
+                height = (int)body.get("height");
+
+                ((Rectangle)allShapes.get(index)).setWidth(width);
+                ((Rectangle)allShapes.get(index)).setHeight(height);
+                break;
+            case "line":
+                width = (int)body.get("width");
+                ((Line)allShapes.get(index)).setWidth(width);
+                break;
+            case "circle":
+                radius = (int)body.get("radius");
+                ((Circle)allShapes.get(index)).setRadius(radius);
+                break;
+            case "ellipse":
+                bigRadius = (int)body.get("bigRadius");
+                smallRadius = (int)body.get("smallRadius");
+                ((Ellipse)allShapes.get(index)).setBigRadius(bigRadius);
+                ((Ellipse)allShapes.get(index)).setSmallRadius(smallRadius);
+                break;
+            default:
+                throw new IllegalArgumentException("Unhandled shape");
+        }
 
         return true;
     }
