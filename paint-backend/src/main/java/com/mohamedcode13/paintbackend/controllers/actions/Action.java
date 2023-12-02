@@ -11,7 +11,7 @@ public class Action {
 
     private List<AbstractShape> after;
 
-    public Action(){
+    public Action() {
         this.before = new ArrayList<>();
         this.after  = new ArrayList<>();
     }
@@ -21,7 +21,7 @@ public class Action {
         this.before = before;
     }
     public void setAfter(List<AbstractShape> after) {
-        this.after= after;
+        this.after = after;
     }
 
     public void addBefore(AbstractShape shape) {

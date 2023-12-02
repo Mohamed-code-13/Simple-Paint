@@ -27,6 +27,13 @@ public class Rectangle extends AbstractShape {
         return height;
     }
 
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     @Override
     public AbstractShape clone() {
         return new Rectangle(getId(), getX(), getY(), getRotate(), getColor(), getType(), getWidth(), getHeight());

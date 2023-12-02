@@ -27,6 +27,13 @@ public class Ellipse extends AbstractShape {
         return smallRadius;
     }
 
+    public void setBigRadius(int bigRadius) {
+        this.bigRadius = bigRadius;
+    }
+    public void setSmallRadius(int smallRadius) {
+        this.smallRadius = smallRadius;
+    }
+
     @Override
     public AbstractShape clone() {
         return new Ellipse(getId(), getX(), getY(), getRotate(), getColor(), getType(), getBigRadius(), getSmallRadius());

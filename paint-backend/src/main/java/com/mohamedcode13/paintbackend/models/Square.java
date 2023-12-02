@@ -19,6 +19,9 @@ public class Square extends AbstractShape {
     public int getWidth() {
         return width;
     }
+    public void setWidth(int width) {
+        this.width = width;
+    }
 
     @Override
     public AbstractShape clone() {
