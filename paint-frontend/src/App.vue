@@ -51,6 +51,7 @@
         <div class="tool" @click="load"><img width="25" height="25" src="https://img.icons8.com/fluency-systems-regular/48/load-from-file.png" alt="load-from-file"/></div>
       </li>
       </div>
+      <div ><input type="color" name="color" id="color-selector" value="black"></div>
       <div id="active-box"><span>{{ selected }}</span></div>
       
     </div>
@@ -65,6 +66,11 @@
 </template>
 
 <style scoped>
+
+#color-selector{
+  float: left;
+  margin-top:10px
+}
 #toolbox{
   height: 50px;
   border-radius: 24px;
