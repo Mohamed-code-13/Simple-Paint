@@ -1,26 +1,25 @@
 {
-  "name": "paint-frontend",
-  "version": "0.1.0",
+  "name": "canvas-test",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
   },
   "dependencies": {
-    "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.0.3",
-    "prettier": "^2.4.1"
+    "@rushstack/eslint-patch": "^1.3.3",
+    "@vitejs/plugin-vue": "^4.4.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "prettier": "^3.0.3",
+    "vite": "^4.4.11"
   }
 }
