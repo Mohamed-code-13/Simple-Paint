@@ -11,8 +11,12 @@
   const port = 8080
   //let shapes = []
   export default{
-    
-    
+    props:{
+      selected: String
+    },
+    setup(props){
+      console.log(props.selected)
+    },
     methods:{
       drawShapes(context, shapes){
         for (let shape in shapes){
@@ -55,7 +59,7 @@
       c.width = this.width
       c.height = this.height  
       this.drawShapes(ctx, this.shapes)
-      const square = new Line(1, 100, 100, 'red', 'white', false, 100, 50)
+      const square = new Ellipse(1, 150, 200, 'red', 'white', false, 50, 100)
       square.draw(ctx)
     },
     
