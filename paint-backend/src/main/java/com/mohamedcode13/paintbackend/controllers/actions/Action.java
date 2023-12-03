@@ -76,8 +76,11 @@ public class Action {
                 break;
         }
         Action action = new Action(actionType);
+
+        List<AbstractShape> temp = this.before;
         action.setBefore(this.after);
-        action.setAfter(this.before);
+        action.setAfter(temp);
+
         return action;
     }
 
