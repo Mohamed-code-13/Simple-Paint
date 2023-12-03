@@ -11,7 +11,10 @@
       hello
     </div>
     <div>
-      <CanvasComp/>
+      
+        <CanvasComp/>
+      
+      
     </div>
   </div>
 

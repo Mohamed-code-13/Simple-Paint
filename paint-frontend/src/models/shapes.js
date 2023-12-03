@@ -58,7 +58,7 @@ export class Square extends Shape{
       context.strokeStyle = this.color1
       context.fillStyle = this.color2
 
-      context.rect(this.posx,this.posy,this.length, this,length)
+      context.rect(this.posx,this.posy,this.length,this.length)
       if(this.fill){
         context.fill()
       }
