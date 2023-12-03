@@ -14,11 +14,12 @@ import static com.mohamedcode13.paintbackend.controllers.actions.Action.ActionTy
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "http://localhost:8081")
 public class PaintController {
 
     private int id = 0;
     @Autowired
-    private ShapeFactory shapeFactory;
+    private ShapeFactory shapeFactory = new ShapeFactory();
     private List<AbstractShape> allShapes = new ArrayList<>();
 
     private Stack<Action> undoStack = new Stack<>();
@@ -185,9 +186,9 @@ public class PaintController {
         Action action = new Action(ChangeAllShapes);
         action.setBefore(this.allShapes);
 
-        allShapes.clear();
+        allShapes = new ArrayList<>();
 
-        action.addAfter(null);
+        action.setAfter(allShapes);
         undoStack.push(action);
         redoStack.clear();
 
@@ -195,7 +196,7 @@ public class PaintController {
     }
 
     @PostMapping(path = "/undo")
-    boolean undo() {
+    public boolean undo() {
         if (undoStack.isEmpty()) {
             return false;
         }
@@ -207,7 +208,7 @@ public class PaintController {
     }
 
     @PostMapping(path = "/redo")
-    boolean redo() {
+    public boolean redo() {
         if (redoStack.isEmpty()) {
             return false;
         }
