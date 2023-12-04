@@ -1,7 +1,8 @@
 package com.mohamedcode13.paintbackend.controllers;
 
-import com.mohamedcode13.paintbackend.controllers.actions.Action;
+import com.mohamedcode13.paintbackend.models.actions.Action;
 import com.mohamedcode13.paintbackend.models.*;
+import com.mohamedcode13.paintbackend.models.actions.ActionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-
-import static com.mohamedcode13.paintbackend.controllers.actions.Action.ActionType.*;
 
 @RestController
 @RequestMapping("/")
@@ -33,7 +32,7 @@ public class PaintController {
         int y = (int) body.get("y");
         String type = (String) body.get("type");
 
-        Action action = new Action(AddShape);
+        Action action = new Action(ActionType.AddShape);
         action.addBefore(null);
 
         AbstractShape shape = shapeFactory.createShape(id++, x, y, type);
@@ -57,7 +56,7 @@ public class PaintController {
         String color = (String) body.get("color");
         int index = getShapeIndex(curId);
 
-        Action action = new Action(ChangeOneShape);
+        Action action = new Action(ActionType.ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.get(index).setColor(color);
@@ -76,7 +75,7 @@ public class PaintController {
         int y = (int) body.get("y");
         int index = getShapeIndex(curId);
 
-        Action action = new Action(ChangeOneShape);
+        Action action = new Action(ActionType.ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.get(index).setPosition(x, y);
@@ -93,7 +92,7 @@ public class PaintController {
         int curId = (int) body.get("id");
         int index = getShapeIndex(curId);
 
-        Action action = new Action(DeleteShape);
+        Action action = new Action(ActionType.DeleteShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.remove(allShapes.get(index));
@@ -111,7 +110,7 @@ public class PaintController {
         int rotate = (int) body.get("rotate");
         int index = getShapeIndex(curId);
 
-        Action action = new Action(ChangeOneShape);
+        Action action = new Action(ActionType.ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.get(index).setRotate(rotate);
@@ -128,7 +127,7 @@ public class PaintController {
         int curId = (int) body.get("id");
         int index = getShapeIndex(curId);
 
-        Action action = new Action(ChangeOneShape);
+        Action action = new Action(ActionType.ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         int width, height, radius, bigRadius, smallRadius;
@@ -183,7 +182,7 @@ public class PaintController {
 
     @PostMapping(path = "/clear")
     public boolean clear() {
-        Action action = new Action(ChangeAllShapes);
+        Action action = new Action(ActionType.ChangeAllShapes);
         action.setBefore(this.allShapes);
 
         allShapes = new ArrayList<>();
