@@ -18,7 +18,7 @@ public class PaintController {
 
     private int id = 0;
     @Autowired
-    private ShapeFactory shapeFactory = new ShapeFactory();
+    private ShapeFactory shapeFactory;
     private List<AbstractShape> allShapes = new ArrayList<>();
 
     private Stack<Action> undoStack = new Stack<>();
@@ -26,8 +26,6 @@ public class PaintController {
 
     @PostMapping(path = "/create")
     public AbstractShape create(@RequestBody Map<String, Object> body) {
-
-
         int x = (int) body.get("x");
         int y = (int) body.get("y");
         String type = (String) body.get("type");
@@ -180,7 +178,7 @@ public class PaintController {
         return shape;
     }
 
-    @PostMapping(path = "/clear")
+    @GetMapping(path = "/clear")
     public boolean clear() {
         Action action = new Action(ActionType.ChangeAllShapes);
         action.setBefore(this.allShapes);
@@ -194,7 +192,7 @@ public class PaintController {
         return true;
     }
 
-    @PostMapping(path = "/undo")
+    @GetMapping(path = "/undo")
     public boolean undo() {
         if (undoStack.isEmpty()) {
             return false;
@@ -206,7 +204,7 @@ public class PaintController {
         return true;
     }
 
-    @PostMapping(path = "/redo")
+    @GetMapping(path = "/redo")
     public boolean redo() {
         if (redoStack.isEmpty()) {
             return false;
@@ -218,12 +216,8 @@ public class PaintController {
         return true;
     }
 
-
-
-
-    private boolean performAction(Action action) {
-
-        switch(action.getActionType()) {
+    private void performAction(Action action) {
+        switch (action.getActionType()) {
             case ChangeAllShapes:
                 this.allShapes = action.getAfter();
                 break;
@@ -237,17 +231,8 @@ public class PaintController {
             case DeleteShape:
                 this.allShapes.remove(action.getBefore().get(0));
                 break;
-
         }
-        return true;
-
-
     }
-
-
-
-
-
 
     private int getShapeIndex(int curId) {
         for (int i = 0; i < allShapes.size(); ++i) {

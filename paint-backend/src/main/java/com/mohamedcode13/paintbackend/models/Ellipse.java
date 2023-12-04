@@ -1,8 +1,5 @@
 package com.mohamedcode13.paintbackend.models;
 
-import org.springframework.stereotype.Component;
-
-//@Component
 public class Ellipse extends AbstractShape {
     private int bigRadius;
     private int smallRadius;
@@ -30,6 +27,7 @@ public class Ellipse extends AbstractShape {
     public void setBigRadius(int bigRadius) {
         this.bigRadius = bigRadius;
     }
+
     public void setSmallRadius(int smallRadius) {
         this.smallRadius = smallRadius;
     }

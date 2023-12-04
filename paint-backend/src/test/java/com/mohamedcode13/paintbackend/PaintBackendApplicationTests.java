@@ -3,26 +3,23 @@ package com.mohamedcode13.paintbackend;
 import com.mohamedcode13.paintbackend.controllers.PaintController;
 import com.mohamedcode13.paintbackend.models.AbstractShape;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 @SpringBootTest
 class PaintBackendApplicationTests {
 
+	@Autowired
+	PaintController paintController;
+
 	@Test
 	void contextLoads() throws IOException {
 
-		PaintController paintController = new PaintController();
-
-		//Tests for create method
 		Map<String, Object> body = new HashMap<>();
 		body.put("x", 10); body.put("y", 10); body.put("type", "circle");
 		paintController.create(body);
@@ -46,7 +43,6 @@ class PaintBackendApplicationTests {
 			System.out.println(shape.getId());
 		}
 
-
 		paintController.redo();
 
 		System.out.println("after 1 redo");
@@ -54,10 +50,6 @@ class PaintBackendApplicationTests {
 		for (AbstractShape shape : allShapes) {
 			System.out.println(shape.getId());
 		}
-
-
-
-
 
 		paintController.clear();
 
@@ -80,14 +72,7 @@ class PaintBackendApplicationTests {
 		for (AbstractShape shape : allShapes) {
 			System.out.println(shape.getId());
 		}
-
-
-
-
-
-
 	}
-
 }
 
 

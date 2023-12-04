@@ -1,8 +1,5 @@
 package com.mohamedcode13.paintbackend.models;
 
-import org.springframework.stereotype.Component;
-
-//@Component
 public class Rectangle extends AbstractShape {
     private int width;
     private int height;
@@ -30,6 +27,7 @@ public class Rectangle extends AbstractShape {
     public void setWidth(int width) {
         this.width = width;
     }
+
     public void setHeight(int height) {
         this.height = height;
     }
