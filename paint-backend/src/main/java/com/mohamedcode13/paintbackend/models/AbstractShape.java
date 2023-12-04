@@ -1,8 +1,21 @@
 package com.mohamedcode13.paintbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.stereotype.Component;
 
 @Component
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Circle.class,    name = "circle"),
+        @JsonSubTypes.Type(value = Ellipse.class,   name = "ellipse"),
+        @JsonSubTypes.Type(value = Line.class,      name = "line"),
+        @JsonSubTypes.Type(value = Rectangle.class, name = "rectangle"),
+        @JsonSubTypes.Type(value = Square.class,    name = "square"),
+        })
 public abstract class AbstractShape {
     private int id;
     private int x;
@@ -11,6 +24,7 @@ public abstract class AbstractShape {
     private String color;
     private String type;
 
+    public AbstractShape(){}
     public AbstractShape(int id, int x, int y, int rotate, String color, String type) {
         this.id = id;
         this.x = x;
@@ -63,4 +77,6 @@ public abstract class AbstractShape {
 
     public abstract AbstractShape clone();
 }
+
+
 

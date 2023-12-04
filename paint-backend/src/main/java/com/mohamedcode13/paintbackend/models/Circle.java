@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 public class Circle extends AbstractShape {
     private int radius;
 
+    public Circle() {
+    }
     public Circle(int id, int x, int y) {
         super(id, x, y, 0, "#EEE", "circle");
         this.radius = 50;

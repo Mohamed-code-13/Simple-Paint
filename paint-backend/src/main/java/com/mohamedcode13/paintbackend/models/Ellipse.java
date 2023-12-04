@@ -7,6 +7,9 @@ public class Ellipse extends AbstractShape {
     private int bigRadius;
     private int smallRadius;
 
+
+    public Ellipse() {
+    }
     public Ellipse(int id, int x, int y) {
         super(id, x, y,  0, "#EEE", "ellipse");
         this.bigRadius = 100;

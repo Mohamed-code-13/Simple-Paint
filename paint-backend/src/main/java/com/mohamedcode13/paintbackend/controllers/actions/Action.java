@@ -1,5 +1,6 @@
 package com.mohamedcode13.paintbackend.controllers.actions;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mohamedcode13.paintbackend.models.AbstractShape;
 
 import java.util.ArrayList;
@@ -7,11 +8,16 @@ import java.util.List;
 
 import static com.mohamedcode13.paintbackend.controllers.actions.Action.ActionType.*;
 
-public class Action {
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Action {
 
     private final ActionType ActionType;
 
+
+    public Action(){
+        ActionType = null;
+    }
 
 
     public enum ActionType {
