@@ -1,8 +1,5 @@
 package com.mohamedcode13.paintbackend.models;
 
-import org.springframework.stereotype.Component;
-
-//@Component
 public class Circle extends AbstractShape {
     private int radius;
 
@@ -21,10 +18,10 @@ public class Circle extends AbstractShape {
     public int getRadius() {
         return this.radius;
     }
+
     public void setRadius(int radius) {
         this.radius = radius;
     }
-
 
     @Override
     public AbstractShape clone() {

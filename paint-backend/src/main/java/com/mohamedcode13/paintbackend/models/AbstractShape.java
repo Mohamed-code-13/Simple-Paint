@@ -22,7 +22,7 @@ public abstract class AbstractShape {
     private int y;
     private int rotate;
     private String color;
-    private String type;
+    private final String type;
 
     public AbstractShape(){}
     public AbstractShape(int id, int x, int y, int rotate, String color, String type) {

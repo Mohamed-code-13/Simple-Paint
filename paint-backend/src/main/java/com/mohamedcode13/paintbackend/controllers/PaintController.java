@@ -1,7 +1,8 @@
 package com.mohamedcode13.paintbackend.controllers;
 
-import com.mohamedcode13.paintbackend.controllers.actions.Action;
+import com.mohamedcode13.paintbackend.models.actions.Action;
 import com.mohamedcode13.paintbackend.models.*;
+import com.mohamedcode13.paintbackend.models.actions.ActionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import static com.mohamedcode13.paintbackend.controllers.actions.Action.ActionType.*;
-
 @RestController
 @RequestMapping("/")
 @CrossOrigin(origins = "http://localhost:8081")
@@ -19,7 +18,7 @@ public class PaintController {
 
     private int id = 0;
     @Autowired
-    private ShapeFactory shapeFactory = new ShapeFactory();
+    private ShapeFactory shapeFactory;
     private List<AbstractShape> allShapes = new ArrayList<>();
 
     private Stack<Action> undoStack = new Stack<>();
@@ -27,13 +26,11 @@ public class PaintController {
 
     @PostMapping(path = "/create")
     public AbstractShape create(@RequestBody Map<String, Object> body) {
-
-
         int x = (int) body.get("x");
         int y = (int) body.get("y");
         String type = (String) body.get("type");
 
-        Action action = new Action(AddShape);
+        Action action = new Action(ActionType.AddShape);
         action.addBefore(null);
 
         AbstractShape shape = shapeFactory.createShape(id++, x, y, type);
@@ -57,7 +54,7 @@ public class PaintController {
         String color = (String) body.get("color");
         int index = getShapeIndex(curId);
 
-        Action action = new Action(ChangeOneShape);
+        Action action = new Action(ActionType.ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.get(index).setColor(color);
@@ -76,7 +73,7 @@ public class PaintController {
         int y = (int) body.get("y");
         int index = getShapeIndex(curId);
 
-        Action action = new Action(ChangeOneShape);
+        Action action = new Action(ActionType.ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.get(index).setPosition(x, y);
@@ -93,7 +90,7 @@ public class PaintController {
         int curId = (int) body.get("id");
         int index = getShapeIndex(curId);
 
-        Action action = new Action(DeleteShape);
+        Action action = new Action(ActionType.DeleteShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.remove(allShapes.get(index));
@@ -111,7 +108,7 @@ public class PaintController {
         int rotate = (int) body.get("rotate");
         int index = getShapeIndex(curId);
 
-        Action action = new Action(ChangeOneShape);
+        Action action = new Action(ActionType.ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         allShapes.get(index).setRotate(rotate);
@@ -128,7 +125,7 @@ public class PaintController {
         int curId = (int) body.get("id");
         int index = getShapeIndex(curId);
 
-        Action action = new Action(ChangeOneShape);
+        Action action = new Action(ActionType.ChangeOneShape);
         action.addBefore(allShapes.get(index));
 
         int width, height, radius, bigRadius, smallRadius;
@@ -181,9 +178,9 @@ public class PaintController {
         return shape;
     }
 
-    @PostMapping(path = "/clear")
+    @GetMapping(path = "/clear")
     public boolean clear() {
-        Action action = new Action(ChangeAllShapes);
+        Action action = new Action(ActionType.ChangeAllShapes);
         action.setBefore(this.allShapes);
 
         allShapes = new ArrayList<>();
@@ -195,7 +192,7 @@ public class PaintController {
         return true;
     }
 
-    @PostMapping(path = "/undo")
+    @GetMapping(path = "/undo")
     public boolean undo() {
         if (undoStack.isEmpty()) {
             return false;
@@ -207,7 +204,7 @@ public class PaintController {
         return true;
     }
 
-    @PostMapping(path = "/redo")
+    @GetMapping(path = "/redo")
     public boolean redo() {
         if (redoStack.isEmpty()) {
             return false;
@@ -219,12 +216,8 @@ public class PaintController {
         return true;
     }
 
-
-
-
-    private boolean performAction(Action action) {
-
-        switch(action.getActionType()) {
+    private void performAction(Action action) {
+        switch (action.getActionType()) {
             case ChangeAllShapes:
                 this.allShapes = action.getAfter();
                 break;
@@ -238,17 +231,8 @@ public class PaintController {
             case DeleteShape:
                 this.allShapes.remove(action.getBefore().get(0));
                 break;
-
         }
-        return true;
-
-
     }
-
-
-
-
-
 
     private int getShapeIndex(int curId) {
         for (int i = 0; i < allShapes.size(); ++i) {

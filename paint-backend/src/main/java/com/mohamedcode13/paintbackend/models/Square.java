@@ -1,8 +1,5 @@
 package com.mohamedcode13.paintbackend.models;
 
-import org.springframework.stereotype.Component;
-
-//@Component
 public class Square extends AbstractShape {
     private int width;
 
@@ -24,6 +21,7 @@ public class Square extends AbstractShape {
     public int getWidth() {
         return width;
     }
+
     public void setWidth(int width) {
         this.width = width;
     }
