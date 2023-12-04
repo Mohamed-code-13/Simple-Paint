@@ -8,6 +8,12 @@
   const load = ()=>{
     
   }
+  const undo = ()=>{
+
+  }
+  const redo = ()=>{
+    
+  }
 </script>
 
 <template>
@@ -36,10 +42,19 @@
         <div class="tool" @click="selected='copy'"><img width="25" height="25" src="https://img.icons8.com/material-outlined/24/copy.png" alt="copy"/></div>
       </li>
       <li>
+        <div class="tool" @click="selected='paste'"><img width="25" height="25" src="https://img.icons8.com/material-outlined/24/paste.png" alt="paste"/></div>
+      </li>
+      <li>
         <div class="tool" @click="selected='delete'"><img width="25" height="25" src="https://img.icons8.com/ios/50/trash--v1.png" alt="trash--v1"/></div>
       </li>
       <li>
         <div class="tool" @click="selected='move'"><img width="25" height="25" src="https://img.icons8.com/ios/50/move.png" alt="move"/></div>
+      </li>
+      <li>
+        <div class="tool" @click="undo"><img width="25" height="25" src="https://img.icons8.com/material-outlined/24/undo.png" alt="undo"/></div>
+      </li>
+      <li>
+        <div class="tool" @click="redo"><img width="24" height="24" src="https://img.icons8.com/material-outlined/24/redo.png" alt="redo"/></div>
       </li>
       <li>
         <div class="tool" @click="selected='options'"><img width="25" height="25" src="https://img.icons8.com/material-rounded/24/sorting-options.png" alt="sorting-options"/></div>

@@ -10,8 +10,14 @@
   import {Line, Rectangle, Triangle, Circle, Square, Ellipse} from '../models/shapes.js'
   import {ref} from 'vue'
   const port = 8080
+
   let shapes = ref([])
+  let id = ref(0)
   let mouseDownState = ref(false)
+  let startx = ref(0)
+  let starty = ref(0)
+  let endx = ref(0)
+  let endy = ref(0)
   export default{
     props:{
       selected: String
@@ -19,12 +25,23 @@
     setup(props){
       console.log(props.selected)
     },
+    data(){
+      return {
+        c: "",
+        ctx:""
+
+      }
+    },
     methods:{
       drawShapes(context, shapes){
         for (let key in shapes){
           let shape = shapes[key]
           shape.draw(context)
         }
+      },
+      getColor(){
+        const color = document.getElementById('color-selector')
+        return color.value
       },
       async getShapes(){
         console.log("getting shapes")
@@ -50,32 +67,99 @@
           shapes.value.push(newShape)
       }
     },
+    createLine(x,y,tox,toy){
+      const line = new Line(id.value, x, y, this.getColor(), "white", false,tox, toy)
+      id.value +=  1
+      line.draw(this.ctx)
+    },
+    createSquare(x,y,endx){
+      let dx = endx - x
+      const square = new Square(id.value, x, y, this.getColor(), "white", false,dx)
+      id.value +=  1
+      square.draw(this.ctx)
+    
+    },
+    createRectangle(x,y,endx,endy){
+      let dx = endx - x
+      let dy = endy - y
+      const rectangle = new Rectangle(id.value, x, y, this.getColor(), "white", false,dx, dy)
+      id.value +=  1
+      rectangle.draw(this.ctx)
+
+    },
+    createCircle(x,y,endx,endy){
+      let dx = endx - x
+      let dy = endy - y
+      let radius = Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2))
+      const circle = new Circle(id.value, x, y, this.getColor(), "white", false,radius)
+      id.value +=  1
+      circle.draw(this.ctx)
+    },
+    createEllipse(x,y,endx,endy){
+      let dx = endx - x
+      let dy = endy - y
+      let width = Math.abs(dx)
+      let height = Math.abs(dy)
+      const ellipse = new Ellipse(id.value, x + dx/2, y + dy/2, this.getColor(), "white", false, width / 2, height / 2)
+      id.value +=  1
+      ellipse.draw(this.ctx)
+    },
+    createTriangle(x,y,endx,endy){
+      let dx = endx - x
+      let dy = endy - y
+      const triangle = new Triangle(id.value, x, y, this.getColor(), "white", false, dx, dy)
+      triangle.draw(this.ctx)
+    },
+    copyShape(){
+
+    },
+    deleteShape(){
+
+    },
+    moveShape(){
+
+    },
+    openOptions(){
+
+    },
     mousedown(e){
+      startx.value = e.x - 10
+      starty.value = e.y - 70
       
-      
-      console.log(e)
+      //console.log(`${startx.value}, ${starty.value}`)
       mouseDownState.value = true
     },
     mouseup(e){
+      if(mouseDownState.value){
+        endx.value = e.x - 10
+        endy.value = e.y -70
+        console.log(endx.value)
+        if(this.selected == "line") this.createLine(startx.value, starty.value, endx.value, endy.value)
+        else if(this.selected == "square") this.createSquare(startx.value, starty.value, endx.value)
+        else if(this.selected == "rectangle") this.createRectangle(startx.value, starty.value, endx.value, endy.value)
+        else if(this.selected == "circle") this.createCircle(startx.value, starty.value, endx.value, endy.value)
+        else if(this.selected == "ellipse") this.createEllipse(startx.value, starty.value, endx.value, endy.value)
+        else if(this.selected == "triangle") this.createTriangle(startx.value, starty.value, endx.value, endy.value)
+        
+      }
       mouseDownState.value = false
-      console.log(e)
+      
     }
     },
     mounted() {
-      const c = document.getElementById("canvas")
-      c.addEventListener("mousedown", (e)=>this.mousedown(e))
-      c.addEventListener("mouseup", (e)=>this.mouseup(e))
+      this.c = document.getElementById("canvas")
+      this.c.addEventListener("mousedown", (e)=>this.mousedown(e))
+      this.c.addEventListener("mouseup", (e)=>this.mouseup(e))
       document.body.addEventListener("mouseup", ()=>mouseDownState.value = false)
-      let ctx = c.getContext("2d")
+      this.ctx = this.c.getContext("2d")
       this.width = window.innerWidth - 20
       this.height = window.innerHeight - 100
-      c.width = this.width
-      c.height = this.height
+      this.c.width = this.width
+      this.c.height = this.height
       //console.log(shapes)
       //this.getShapes()
-      const square = new Rectangle(1, 150, 200, 'red', 'white', false, 200, 100)
-      this.drawShapes(ctx, [square])
       
+      console.log(this.getColor())
     },
     
    
