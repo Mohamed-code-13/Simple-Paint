@@ -1,11 +1,18 @@
 package com.mohamedcode13.paintbackend.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mohamedcode13.paintbackend.controllers.saveLoad.DataStored;
+import com.mohamedcode13.paintbackend.controllers.saveLoad.Loader;
+import com.mohamedcode13.paintbackend.controllers.saveLoad.Saver;
 import com.mohamedcode13.paintbackend.models.actions.Action;
 import com.mohamedcode13.paintbackend.models.*;
 import com.mohamedcode13.paintbackend.models.actions.ActionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +62,7 @@ public class PaintController {
         int index = getShapeIndex(curId);
 
         Action action = new Action(ActionType.ChangeOneShape);
-        action.addBefore(allShapes.get(index));
+        action.addBefore(allShapes.get(index).clone());
 
         allShapes.get(index).setColor(color);
 
@@ -74,7 +81,7 @@ public class PaintController {
         int index = getShapeIndex(curId);
 
         Action action = new Action(ActionType.ChangeOneShape);
-        action.addBefore(allShapes.get(index));
+        action.addBefore(allShapes.get(index).clone());
 
         allShapes.get(index).setPosition(x, y);
 
@@ -91,7 +98,7 @@ public class PaintController {
         int index = getShapeIndex(curId);
 
         Action action = new Action(ActionType.DeleteShape);
-        action.addBefore(allShapes.get(index));
+        action.addBefore(allShapes.get(index).clone());
 
         allShapes.remove(allShapes.get(index));
 
@@ -109,7 +116,7 @@ public class PaintController {
         int index = getShapeIndex(curId);
 
         Action action = new Action(ActionType.ChangeOneShape);
-        action.addBefore(allShapes.get(index));
+        action.addBefore(allShapes.get(index).clone());
 
         allShapes.get(index).setRotate(rotate);
 
@@ -126,7 +133,7 @@ public class PaintController {
         int index = getShapeIndex(curId);
 
         Action action = new Action(ActionType.ChangeOneShape);
-        action.addBefore(allShapes.get(index));
+        action.addBefore(allShapes.get(index).clone());
 
         int width, height, radius, bigRadius, smallRadius;
         switch (allShapes.get(index).getType()) {
@@ -215,6 +222,50 @@ public class PaintController {
 
         return true;
     }
+
+    @GetMapping(path = "/save")
+    public String save(@RequestBody Map<String, Object> body) throws JsonProcessingException {
+
+
+        String extension = (String) body.get("extension");
+
+        DataStored storedData = new DataStored();
+        storedData.setAllShapes(this.allShapes);
+        storedData.setUndoStack(this.undoStack);
+        storedData.setRedoStack(this.redoStack);
+
+
+        Saver saver = new Saver();
+
+        if(extension.equals("json")){
+            return saver.saveJson(storedData);
+        }
+        else if(extension.equals("xml")){
+            return saver.saveXml(storedData);
+        } else {
+            throw new IllegalArgumentException("Invalid extension");
+        }
+
+
+
+    }
+
+
+    @PostMapping(path = "/load")
+public boolean load(@RequestBody Map<String, Object> body) throws JsonProcessingException {
+
+        String json = (String) body.get("data");
+
+        Loader loader = new Loader();
+        DataStored storedData = Loader.loadJson(json);
+
+        this.allShapes = storedData.getAllShapes();
+        this.undoStack = storedData.getUndoStack();
+        this.redoStack = storedData.getRedoStack();
+
+        return true;
+    }
+
 
     private void performAction(Action action) {
         switch (action.getActionType()) {

@@ -1,14 +1,21 @@
 package com.mohamedcode13.paintbackend.models.actions;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mohamedcode13.paintbackend.models.AbstractShape;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Action {
     private final ActionType actionType;
     private List<AbstractShape> before;
     private List<AbstractShape> after;
+
+
+    public Action(){
+        this.actionType = null;
+    }
 
     public Action(ActionType actionType) {
         this.actionType = actionType;
