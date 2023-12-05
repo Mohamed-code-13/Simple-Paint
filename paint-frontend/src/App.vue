@@ -8,12 +8,6 @@
   const load = ()=>{
     
   }
-  const undo = ()=>{
-
-  }
-  const redo = ()=>{
-    
-  }
 </script>
 
 <template>
@@ -51,10 +45,10 @@
         <div class="tool" @click="selected='move'"><img width="25" height="25" src="https://img.icons8.com/ios/50/move.png" alt="move"/></div>
       </li>
       <li>
-        <div class="tool" @click="undo"><img width="25" height="25" src="https://img.icons8.com/material-outlined/24/undo.png" alt="undo"/></div>
+        <div class="tool" id="undo"><img width="25" height="25" src="https://img.icons8.com/material-outlined/24/undo.png" alt="undo"/></div>
       </li>
       <li>
-        <div class="tool" @click="redo"><img width="24" height="24" src="https://img.icons8.com/material-outlined/24/redo.png" alt="redo"/></div>
+        <div class="tool" id="redo"><img width="24" height="24" src="https://img.icons8.com/material-outlined/24/redo.png" alt="redo"/></div>
       </li>
       <li>
         <div class="tool" @click="selected='options'"><img width="25" height="25" src="https://img.icons8.com/material-rounded/24/sorting-options.png" alt="sorting-options"/></div>
@@ -66,7 +60,7 @@
         <div class="tool" @click="load"><img width="25" height="25" src="https://img.icons8.com/fluency-systems-regular/48/load-from-file.png" alt="load-from-file"/></div>
       </li>
       </div>
-      <div ><input type="color" name="color" id="color-selector" value="black"></div>
+      <div><input type="color" name="color" id="color-selector" value="black"></div>
       <div id="active-box"><span>{{ selected }}</span></div>
       
     </div>
@@ -90,7 +84,7 @@
   height: 50px;
   border-radius: 24px;
   width: 100%;
-  background-color: gray;
+  background-color: rgb(8, 127, 141);
   
 }
 #active-box{
@@ -117,7 +111,7 @@ li{
   
 }
 .tool:hover{
-  background-color: rgb(87, 87, 87);
+  background-color: rgb(6, 81, 90);
 }
 .selected{
   background-color: rgb(87, 87, 87);

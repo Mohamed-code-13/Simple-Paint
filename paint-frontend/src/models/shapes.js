@@ -8,7 +8,7 @@ export class Shape{
       this.color2 = color2
       this.fill = fill
     }
-    draw(){}
+    
   }
 export class Rectangle extends Shape{
     constructor(id, posx, posy, color1, color2 = "white", fill = false, width, height){
@@ -29,6 +29,13 @@ export class Rectangle extends Shape{
       context.stroke()
       
     }
+    isSelected(x,y){
+      if(x >= Math.min(this.posx,  this.posx + this.width) 
+        && x <= Math.max(this.posx,  this.posx + this.width) 
+        && y >= Math.min(this.posy,  this.posy + this.height) 
+        && y <=Math.max(this.posy,  this.posy + this.height)) return true
+      else return false
+    }
   }
 export class Circle extends Shape{
     constructor(id, posx, posy, color1, color2 = "white", fill = false, radius){
@@ -47,6 +54,11 @@ export class Circle extends Shape{
       context.stroke()
       
     }
+    isSelected(x,y){
+      const dist = Math.sqrt(Math.pow(this.posx - x, 2) + Math.pow(this.posy - y, 2))
+      if(dist <= this.radius) return true
+      else return false
+    }
   }
 export class Square extends Shape{
     constructor(id, posx, posy, color1, color2 = "white", fill = false, length){
@@ -64,6 +76,13 @@ export class Square extends Shape{
       }
       context.stroke()
       
+    }
+    isSelected(x,y){
+      if(x >= Math.min(this.posx,  this.posx + this.length) 
+        && x <= Math.max(this.posx,  this.posx + this.length) 
+        && y >= Math.min(this.posy,  this.posy + this.length) 
+        && y <=Math.max(this.posy,  this.posy + this.length)) return true
+      else return false
     }
   }
 export class Ellipse extends Shape{
@@ -84,6 +103,13 @@ export class Ellipse extends Shape{
       context.stroke()
       
     }
+    isSelected(x,y){
+      if(x >= Math.min(this.posx + this.radiusx, this.posx - this.radiusx)
+        && x <= Math.max(this.posx + this.radiusx, this.posx - this.radiusx)
+        && y >= Math.min(this.posy + this.radiusy, this.posy - this.radiusy)
+        && y <= Math.max(this.posy + this.radiusy, this.posy - this.radiusy)) return true
+      else return false
+    } 
   }
 export class Triangle extends Shape{
     constructor(id, posx, posy, color1, color2 = "white", fill = false, base, height){
@@ -108,6 +134,13 @@ export class Triangle extends Shape{
       context.stroke()
       
     }
+    isSelected(x,y){
+      if(x >= Math.min(this.posx,this.posx + this.base)
+      && x <= Math.max(this.posx,this.posx + this.base)
+      && y >= Math.min(this.posy,this.posy + this.height)
+      && y <= Math.max(this.posy,this.posy + this.height)) return true
+      else return false
+    }
   }
 export class Line extends Shape{
     constructor(id, posx, posy, color1, color2 = "white", fill = false, endx, endy){
@@ -124,5 +157,12 @@ export class Line extends Shape{
       context.closePath()
       context.stroke()
       
+    }
+    isSelected(x,y){
+      if(x >= Math.min(this.posx,this.endx)
+      && x <= Math.max(this.posx,this.endx)
+      && y >= Math.min(this.posy,this.endy)
+      && y <= Math.max(this.posy,this.endy)) return true
+      else return false
     }
   }
