@@ -4,7 +4,6 @@ import com.mohamedcode13.paintbackend.models.*;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.*;
-import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;

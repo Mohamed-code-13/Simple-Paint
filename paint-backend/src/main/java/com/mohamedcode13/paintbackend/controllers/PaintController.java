@@ -3,13 +3,12 @@ package com.mohamedcode13.paintbackend.controllers;
 import com.mohamedcode13.paintbackend.models.actions.Action;
 import com.mohamedcode13.paintbackend.models.*;
 import com.mohamedcode13.paintbackend.models.actions.ActionType;
+import com.mohamedcode13.paintbackend.service.SaveLoadJSON;
 import com.mohamedcode13.paintbackend.service.SaveLoadXML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.bind.JAXBException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +24,8 @@ public class PaintController {
     private ShapeFactory shapeFactory;
     @Autowired
     private SaveLoadXML saveLoadXML;
+    @Autowired
+    private SaveLoadJSON saveLoadJSON;
     private List<AbstractShape> allShapes = new ArrayList<>();
 
     private Stack<Action> undoStack = new Stack<>();
@@ -218,6 +219,17 @@ public class PaintController {
     @PostMapping(path = "/load-xml")
     public List<AbstractShape> loadXml(@RequestBody String body) {
         this.allShapes = saveLoadXML.loadXml(body);
+        return allShapes;
+    }
+
+    @GetMapping(path = "/save-json")
+    public ResponseEntity<String> saveJson() {
+        return ResponseEntity.ok(saveLoadJSON.saveJson(allShapes));
+    }
+
+    @PostMapping(path = "/load-json")
+    public List<AbstractShape> loadJson(@RequestBody String body) {
+        this.allShapes = saveLoadJSON.loadJson(body);
         return allShapes;
     }
 
