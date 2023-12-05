@@ -5,6 +5,7 @@ import com.mohamedcode13.paintbackend.models.*;
 import com.mohamedcode13.paintbackend.models.actions.ActionType;
 import com.mohamedcode13.paintbackend.service.SaveLoadXML;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.bind.JAXBException;
@@ -209,19 +210,14 @@ public class PaintController {
         return true;
     }
 
-    @PostMapping(path = "/save-xml")
-    public boolean saveXml(@RequestBody Map<String, Object> body) {
-        String path = (String) body.get("path");
-
-        saveLoadXML.saveXML(path, allShapes);
-        return true;
+    @GetMapping(path = "/save-xml")
+    public ResponseEntity<String> saveXml() {
+        return ResponseEntity.ok(saveLoadXML.saveXML(allShapes));
     }
 
     @PostMapping(path = "/load-xml")
-    public List<AbstractShape> loadXml(@RequestBody Map<String, Object> body) {
-        String path = (String) body.get("path");
-
-        this.allShapes = saveLoadXML.loadXml(path);
+    public List<AbstractShape> loadXml(@RequestBody String body) {
+        this.allShapes = saveLoadXML.loadXml(body);
         return allShapes;
     }
 
