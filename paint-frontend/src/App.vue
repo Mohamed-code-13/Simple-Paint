@@ -1,6 +1,7 @@
 <script setup>
   import{ref} from 'vue'
   import CanvasComp from './components/CanvasComp.vue'
+  import DialogComp from './components/DialogComp.vue'
   let selected = ref("none")
   const save = ()=>{
 
@@ -12,6 +13,7 @@
 
 <template>
   <div id="container">
+    <DialogComp />
     <div id="toolbox">
       <div id="tool-container">
         <li>
@@ -65,11 +67,9 @@
       
     </div>
     <div>
-      
-        <CanvasComp :selected="selected"/>
-      
-      
+      <CanvasComp :selected="selected"/>
     </div>
+      
   </div>
 
 </template>
