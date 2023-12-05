@@ -1,7 +1,13 @@
 package com.mohamedcode13.paintbackend.models;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "Line")
 public class Line extends AbstractShape {
     private int width;
+
+    public Line() {}
 
     public Line(int id, int x, int y) {
         super(id, x, y, 0, "EEE", "line");
@@ -13,6 +19,7 @@ public class Line extends AbstractShape {
         this.width = width;
     }
 
+    @XmlElement
     public int getWidth() {
         return width;
     }

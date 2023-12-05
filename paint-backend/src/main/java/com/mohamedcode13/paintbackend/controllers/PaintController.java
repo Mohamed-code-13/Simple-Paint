@@ -3,9 +3,12 @@ package com.mohamedcode13.paintbackend.controllers;
 import com.mohamedcode13.paintbackend.models.actions.Action;
 import com.mohamedcode13.paintbackend.models.*;
 import com.mohamedcode13.paintbackend.models.actions.ActionType;
+import com.mohamedcode13.paintbackend.service.SaveLoadXML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +22,8 @@ public class PaintController {
     private int id = 0;
     @Autowired
     private ShapeFactory shapeFactory;
+    @Autowired
+    private SaveLoadXML saveLoadXML;
     private List<AbstractShape> allShapes = new ArrayList<>();
 
     private Stack<Action> undoStack = new Stack<>();
@@ -202,6 +207,22 @@ public class PaintController {
         performAction(action.reversedCopy());
 
         return true;
+    }
+
+    @PostMapping(path = "/save-xml")
+    public boolean saveXml(@RequestBody Map<String, Object> body) {
+        String path = (String) body.get("path");
+
+        saveLoadXML.saveXML(path, allShapes);
+        return true;
+    }
+
+    @PostMapping(path = "/load-xml")
+    public List<AbstractShape> loadXml(@RequestBody Map<String, Object> body) {
+        String path = (String) body.get("path");
+
+        this.allShapes = saveLoadXML.loadXml(path);
+        return allShapes;
     }
 
     @GetMapping(path = "/redo")

@@ -1,7 +1,13 @@
 package com.mohamedcode13.paintbackend.models;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "Circle")
 public class Circle extends AbstractShape {
     private int radius;
+
+    public Circle() {}
 
     public Circle(int id, int x, int y) {
         super(id, x, y, 0, "#EEE", "circle");
@@ -13,6 +19,7 @@ public class Circle extends AbstractShape {
         this.radius = radius;
     }
 
+    @XmlElement
     public int getRadius() {
         return this.radius;
     }

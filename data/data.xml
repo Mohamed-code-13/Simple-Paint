@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<abstractShapeWrapper>
+    <shapes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="circle">
+        <color>#EEE</color>
+        <id>0</id>
+        <rotate>0</rotate>
+        <type>circle</type>
+        <x>13</x>
+        <y>21</y>
+        <radius>50</radius>
+    </shapes>
+    <shapes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="circle">
+        <color>#EEE</color>
+        <id>1</id>
+        <rotate>0</rotate>
+        <type>circle</type>
+        <x>13</x>
+        <y>21</y>
+        <radius>50</radius>
+    </shapes>
+</abstractShapeWrapper>
