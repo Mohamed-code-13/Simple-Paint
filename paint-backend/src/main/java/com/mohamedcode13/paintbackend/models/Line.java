@@ -10,8 +10,8 @@ public class Line extends AbstractShape {
 
     public Line() {}
 
-    public Line(int id, int x, int y, String borderColor, String filledColor, String type, int endX, int endY) {
-        super(id, x, y, borderColor, filledColor, type);
+    public Line(int id, int x, int y, String borderColor, String filledColor, boolean filled, String type, int endX, int endY) {
+        super(id, x, y, borderColor, filledColor, filled, type);
         this.endX = endX;
         this.endY = endY;
     }
@@ -36,6 +36,6 @@ public class Line extends AbstractShape {
 
     @Override
     public AbstractShape clone() {
-        return new Line(getId(), getX(), getY(), getBorderColor(), getFilledColor(), getType(), getEndX(), getEndY());
+        return new Line(getId(), getX(), getY(), getBorderColor(), getFilledColor(), isFilled(), getType(), getEndX(), getEndY());
     }
 }

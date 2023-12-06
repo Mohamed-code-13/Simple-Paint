@@ -10,8 +10,8 @@ public class Rectangle extends AbstractShape {
 
     public Rectangle() {}
 
-    public Rectangle(int id, int x, int y, String borderColor, String filledColor, String type, int width, int height) {
-        super(id, x, y, borderColor, filledColor, type);
+    public Rectangle(int id, int x, int y, String borderColor, String filledColor, boolean filled, String type, int width, int height) {
+        super(id, x, y, borderColor, filledColor, filled, type);
         this.width = width;
         this.height = height;
     }
@@ -36,6 +36,6 @@ public class Rectangle extends AbstractShape {
 
     @Override
     public AbstractShape clone() {
-        return new Rectangle(getId(), getX(), getY(), getBorderColor(), getFilledColor(), getType(), getWidth(), getHeight());
+        return new Rectangle(getId(), getX(), getY(), getBorderColor(), getFilledColor(), isFilled(), getType(), getWidth(), getHeight());
     }
 }

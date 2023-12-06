@@ -16,7 +16,7 @@ import java.util.Stack;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin()
 public class PaintController {
 
     private int id = 0;
@@ -33,16 +33,12 @@ public class PaintController {
 
     @PostMapping(path = "/create")
     public AbstractShape create(@RequestBody Map<String, Object> body) {
-        int x = (int) body.get("x");
-        int y = (int) body.get("y");
-        String type = (String) body.get("type");
-
         Action action = new Action(ActionType.AddShape);
         action.addBefore(null);
 
-        AbstractShape shape = shapeFactory.createShape(id++, x, y, type);
+        AbstractShape shape = shapeFactory.createShape(id++, body);
 
-        action.addAfter(shape);
+        action.addAfter(shape.clone());
         undoStack.push(action);
         redoStack.clear();
 
@@ -58,15 +54,17 @@ public class PaintController {
     @PostMapping(path = "/color")
     public AbstractShape color(@RequestBody Map<String, Object> body) {
         int curId = (int) body.get("id");
-        String color = (String) body.get("color");
+        String borderColor = (String) body.get("color1");
+        String filledColor = (String) body.get("color2");
         int index = getShapeIndex(curId);
 
         Action action = new Action(ActionType.ChangeOneShape);
-        action.addBefore(allShapes.get(index));
+        action.addBefore(allShapes.get(index).clone());
 
-        allShapes.get(index).setColor(color);
+        allShapes.get(index).setBorderColor(borderColor);
+        allShapes.get(index).setFilledColor(filledColor);
 
-        action.addAfter(allShapes.get(index));
+        action.addAfter(allShapes.get(index).clone());
         undoStack.push(action);
         redoStack.clear();
 
@@ -76,16 +74,16 @@ public class PaintController {
     @PostMapping(path = "/move")
     public AbstractShape move(@RequestBody Map<String, Object> body) {
         int curId = (int) body.get("id");
-        int x = (int) body.get("x");
-        int y = (int) body.get("y");
+        int dx = (int) body.get("dx");
+        int dy = (int) body.get("dy");
         int index = getShapeIndex(curId);
 
         Action action = new Action(ActionType.ChangeOneShape);
-        action.addBefore(allShapes.get(index));
+        action.addBefore(allShapes.get(index).clone());
 
-        allShapes.get(index).setPosition(x, y);
+        allShapes.get(index).movePosition(dx, dy);
 
-        action.addAfter(allShapes.get(index));
+        action.addAfter(allShapes.get(index).clone());
         undoStack.push(action);
         redoStack.clear();
 
@@ -98,7 +96,7 @@ public class PaintController {
         int index = getShapeIndex(curId);
 
         Action action = new Action(ActionType.DeleteShape);
-        action.addBefore(allShapes.get(index));
+        action.addBefore(allShapes.get(index).clone());
 
         allShapes.remove(allShapes.get(index));
 
@@ -109,65 +107,42 @@ public class PaintController {
         return true;
     }
 
-    @PostMapping(path = "/rotate")
-    public AbstractShape rotate(@RequestBody Map<String, Object> body) {
-        int curId = (int) body.get("id");
-        int rotate = (int) body.get("rotate");
-        int index = getShapeIndex(curId);
-
-        Action action = new Action(ActionType.ChangeOneShape);
-        action.addBefore(allShapes.get(index));
-
-        allShapes.get(index).setRotate(rotate);
-
-        action.addAfter(allShapes.get(index));
-        undoStack.push(action);
-        redoStack.clear();
-
-        return allShapes.get(index);
-    }
-
     @PostMapping(path = "/resize")
     public boolean resize(@RequestBody Map<String, Object> body) {
         int curId = (int) body.get("id");
         int index = getShapeIndex(curId);
 
         Action action = new Action(ActionType.ChangeOneShape);
-        action.addBefore(allShapes.get(index));
+        action.addBefore(allShapes.get(index).clone());
 
-        int width, height, radius, bigRadius, smallRadius;
         switch (allShapes.get(index).getType()) {
 
             case "square":
-                width = (int) body.get("width");
-                ((Square) allShapes.get(index)).setWidth(width);
+                ((Square) allShapes.get(index)).setWidth((int) body.get("length1"));
                 break;
             case "rectangle":
-                width = (int) body.get("width");
-                height = (int) body.get("height");
-
-                ((Rectangle) allShapes.get(index)).setWidth(width);
-                ((Rectangle) allShapes.get(index)).setHeight(height);
+                ((Rectangle) allShapes.get(index)).setWidth((int) body.get("length1"));
+                ((Rectangle) allShapes.get(index)).setHeight((int) body.get("length2"));
                 break;
             case "line":
-                width = (int) body.get("width");
-                ((Line) allShapes.get(index)).setWidth(width);
+                ((Line) allShapes.get(index)).setEndX((int)body.get("endx"));
+                ((Line) allShapes.get(index)).setEndY((int)body.get("endy"));
                 break;
             case "circle":
-                radius = (int) body.get("radius");
-                ((Circle) allShapes.get(index)).setRadius(radius);
+                ((Circle) allShapes.get(index)).setRadius((int) body.get("radius"));
                 break;
             case "ellipse":
-                bigRadius = (int) body.get("bigRadius");
-                smallRadius = (int) body.get("smallRadius");
-                ((Ellipse) allShapes.get(index)).setRadiusX(bigRadius);
-                ((Ellipse) allShapes.get(index)).setRadiusY(smallRadius);
+                ((Ellipse) allShapes.get(index)).setRadiusX((int)body.get("radiusx"));
+                ((Ellipse) allShapes.get(index)).setRadiusY((int)body.get("radiusy"));
                 break;
+            case "triangle":
+                ((Triangle) allShapes.get(index)).setBase((int)body.get("base"));
+                ((Triangle) allShapes.get(index)).setHeight((int)body.get("height"));
             default:
                 throw new IllegalArgumentException("Unhandled shape");
         }
 
-        action.addAfter(allShapes.get(index));
+        action.addAfter(allShapes.get(index).clone());
         undoStack.push(action);
         redoStack.clear();
 
@@ -188,11 +163,11 @@ public class PaintController {
     @GetMapping(path = "/clear")
     public boolean clear() {
         Action action = new Action(ActionType.ChangeAllShapes);
-        action.setBefore(this.allShapes);
+        action.setBefore(new ArrayList<>(this.allShapes));
 
-        allShapes = new ArrayList<>();
+        allShapes.clear() ;
 
-        action.setAfter(allShapes);
+        action.setAfter(new ArrayList<>(this.allShapes));
         undoStack.push(action);
         redoStack.clear();
 

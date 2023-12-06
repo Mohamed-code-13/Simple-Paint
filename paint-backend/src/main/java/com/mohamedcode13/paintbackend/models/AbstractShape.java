@@ -15,16 +15,18 @@ public abstract class AbstractShape {
     private int y;
     private String borderColor;
     private String filledColor;
+    private boolean filled;
     private String type;
 
     public AbstractShape() {}
 
-    public AbstractShape(int id, int x, int y, String borderColor, String filledColor, String type) {
+    public AbstractShape(int id, int x, int y, String borderColor, String filledColor, boolean isFilled, String type) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.borderColor = borderColor;
         this.filledColor = filledColor;
+        this.filled = isFilled;
         this.type = type;
     }
 
@@ -54,6 +56,11 @@ public abstract class AbstractShape {
     }
 
     @XmlElement
+    public boolean isFilled() {
+        return filled;
+    }
+
+    @XmlElement
     public String getType() {
         return type;
     }
@@ -62,9 +69,9 @@ public abstract class AbstractShape {
         this.id = id;
     }
 
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void movePosition(int dx, int dy) {
+        this.x += dx;
+        this.y += dy;
     }
 
     public void setBorderColor(String borderColor) {
@@ -73,6 +80,10 @@ public abstract class AbstractShape {
 
     public void setFilledColor(String filledColor) {
         this.filledColor = filledColor;
+    }
+
+    public void setFilled(boolean filled) {
+        this.filled = filled;
     }
 
     public void setType(String type) {

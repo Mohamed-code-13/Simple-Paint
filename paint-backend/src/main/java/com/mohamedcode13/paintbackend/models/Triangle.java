@@ -10,8 +10,8 @@ public class Triangle extends AbstractShape{
 
     public Triangle() {}
 
-    public Triangle(int id, int x, int y, String borderColor, String filledColor, String type, int base, int height) {
-        super(id, x, y, borderColor, filledColor, type);
+    public Triangle(int id, int x, int y, String borderColor, String filledColor, boolean filled, String type, int base, int height) {
+        super(id, x, y, borderColor, filledColor, filled, type);
         this.base = base;
         this.height = height;
     }
@@ -36,6 +36,6 @@ public class Triangle extends AbstractShape{
 
     @Override
     public AbstractShape clone() {
-        return new Rectangle(getId(), getX(), getY(), getBorderColor(), getFilledColor(), getType(), getBase(), getHeight());
+        return new Rectangle(getId(), getX(), getY(), getBorderColor(), getFilledColor(), isFilled(), getType(), getBase(), getHeight());
     }
 }

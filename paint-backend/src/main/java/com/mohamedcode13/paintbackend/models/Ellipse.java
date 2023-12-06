@@ -10,8 +10,8 @@ public class Ellipse extends AbstractShape {
 
     public Ellipse() {}
 
-    public Ellipse(int id, int x, int y, String borderColor, String filledColor, String type, int bigRadius, int smallRadius) {
-        super(id, x, y, borderColor, filledColor, type);
+    public Ellipse(int id, int x, int y, String borderColor, String filledColor, boolean filled, String type, int bigRadius, int smallRadius) {
+        super(id, x, y, borderColor, filledColor, filled, type);
         this.radiusX = bigRadius;
         this.radiusY = smallRadius;
     }
@@ -36,6 +36,6 @@ public class Ellipse extends AbstractShape {
 
     @Override
     public AbstractShape clone() {
-        return new Ellipse(getId(), getX(), getY(), getBorderColor(), getFilledColor(), getType(), getRadiusX(), getRadiusY());
+        return new Ellipse(getId(), getX(), getY(), getBorderColor(), getFilledColor(), isFilled(), getType(), getRadiusX(), getRadiusY());
     }
 }

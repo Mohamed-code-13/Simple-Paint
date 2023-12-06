@@ -9,8 +9,8 @@ public class Square extends AbstractShape {
 
     public Square() {}
 
-    public Square(int id, int x, int y, String borderColor, String filledColor, String type, int width) {
-        super(id, x, y, borderColor, filledColor, type);
+    public Square(int id, int x, int y, String borderColor, String filledColor, boolean filled, String type, int width) {
+        super(id, x, y, borderColor, filledColor, filled, type);
         this.width = width;
     }
 
@@ -25,6 +25,6 @@ public class Square extends AbstractShape {
 
     @Override
     public AbstractShape clone() {
-        return new Square(getId(), getX(), getY(), getBorderColor(), getFilledColor(), getType(), getWidth());
+        return new Square(getId(), getX(), getY(), getBorderColor(), getFilledColor(), isFilled(), getType(), getWidth());
     }
 }
