@@ -421,7 +421,7 @@ export default {
     //   }
     // }
   },
-  expose: ['applyChanges'],
+  expose: ['applyChanges', 'drawShapes', 'getShapes'],
   mounted() {
     this.c = document.getElementById('canvas')
     this.c.addEventListener('mousedown', (e) => this.mousedown(e))
@@ -437,6 +437,8 @@ export default {
     this.height = window.innerHeight - 100
     this.c.width = this.width
     this.c.height = this.height
+    this.getShapes()
+    this.drawShapes()
   }
 }
 </script>

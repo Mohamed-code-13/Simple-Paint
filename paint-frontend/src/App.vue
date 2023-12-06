@@ -5,11 +5,7 @@ import CanvasComp from './components/CanvasComp.vue'
 import DialogComp from './components/DialogComp.vue'
 
 const port = 8080
-const save = async () => {
-  const jsonResponse = await fetch(`http://localhost:${port}/save-json`)
-  //download(JSON.stringify(jsonResponse), "save_json.json", "text/plain");
-}
-const load = () => {}
+
 const applyChangesRef = ref(0)
 
 export default {
@@ -35,6 +31,50 @@ export default {
       this.requirements = args[0]
       this.defaultValues = args[1]
       this.showDialog = true
+    },
+    async load(){
+      const file = document.getElementById("file-input").files[0]
+      if(file!= null && (file.name.endsWith(".json") || file.name.endsWith(".xml"))){
+        const fileReader = new FileReader(file)
+        fileReader.onload = async (fileLoadedEvent)=>{
+          const fileContent = fileLoadedEvent.target.result;
+          if(file.name.endsWith(".json")) {
+            await this.sendFile(fileContent, 'json')
+          }else{
+            await this.sendFile(fileContent, 'xml')
+          }
+        }
+        fileReader.readAsText(file, "UTF-8");
+        await this.$refs.applyChanges.getShapes()
+        this.$refs.applyChanges.drawShapes()
+      }
+      
+    },
+    async sendFile(content, format){
+      await fetch(`http://localhost:${port}/load-${format}`, {
+        method: 'POST',
+        body: content,
+      })
+    },
+    
+    async save(){
+      console.log("saving")
+      const jsonResponse = await fetch(`http://localhost:${port}/save-json`)
+      let data = await jsonResponse.text()
+      this.getFile('json', data)
+      const xmlResponse = await fetch(`http://localhost:${port}/save-xml`)
+      data = await xmlResponse.text()
+      this.getFile('xml', data)
+    },
+    getFile(type, data){
+      const blob = new Blob([data], {type: `text/plain`})
+      const e = document.createEvent('MouseEvents'),
+      a = document.createElement('a');
+      a.download = `savefile.${type}`;
+      a.href = window.URL.createObjectURL(blob);
+      a.dataset.downloadurl = [`savefile/${type}`, a.download, a.href].join(':');
+      e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      a.dispatchEvent(e);
     }
   }
 }
@@ -145,6 +185,7 @@ export default {
             <img width="25" height="25" src="https://img.icons8.com/ios/50/move.png" alt="move" />
           </div>
         </li>
+        <div><input type="color" name="color" id="color-selector" value="black" /></div>
         <li>
           <div class="tool" id="undo">
             <img
@@ -191,10 +232,11 @@ export default {
           </div>
         </li>
       </div>
-      <div><input type="color" name="color" id="color-selector" value="black" /></div>
+      
       <div id="active-box">
         <span>{{ selected }}</span>
       </div>
+      <div id="file-selector"><input type="file" id="file-input" name="loadfile"></div>
     </div>
     <div>
       <CanvasComp :selected="selected" @open-dialog="openDialog" ref="applyChangesRef" />
@@ -203,6 +245,10 @@ export default {
 </template>
 
 <style scoped>
+#file-selector{
+  float: left;
+  margin-top: 13px;
+}
 #color-selector {
   float: left;
   margin-top: 10px;
