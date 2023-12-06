@@ -32,22 +32,24 @@ export default {
       this.showDialog = true
     },
     async load() {
-      const file = document.getElementById('file-input').files[0]
-      if (file != null && (file.name.endsWith('.json') || file.name.endsWith('.xml'))) {
-        const fileReader = new FileReader(file)
-        fileReader.onload = async (fileLoadedEvent) => {
-          const fileContent = fileLoadedEvent.target.result
+      let file = document.getElementById('file-input').files[0]
+      let fileReader = new FileReader(file)
+      fileReader.onload = async (fileLoadedEvent) => {
+        const fileContent = fileLoadedEvent.target.result
+        if (file != null && (file.name.endsWith('.json') || file.name.endsWith('.xml'))){
           if (file.name.endsWith('.json')) {
             await this.sendFile(fileContent, 'json')
           } else {
             await this.sendFile(fileContent, 'xml')
           }
+          await this.$refs.applyChangesRef.getShapes()
+          this.$refs.applyChangesRef.drawShapes()
         }
-        fileReader.readAsText(file, 'UTF-8')
-        await this.$refs.applyChanges.getShapes()
-        this.$refs.applyChanges.drawShapes()
-      }
+        }
+      if (file != null && (file.name.endsWith('.json') || file.name.endsWith('.xml')))
+      fileReader.readAsText(file, 'UTF-8')
     },
+
     async sendFile(content, format) {
       await fetch(`http://localhost:${port}/load-${format}`, {
         method: 'POST',
@@ -263,7 +265,7 @@ export default {
 }
 #active-box {
   float: right;
-  margin-right: 100px;
+  margin-right: 50px;
   padding: 10px 10px 10px 10px;
   height: 20px;
   margin-top: 3px;

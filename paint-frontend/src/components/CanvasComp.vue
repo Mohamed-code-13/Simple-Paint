@@ -8,15 +8,11 @@
 
 <script>
 import { Line, Rectangle, Triangle, Circle, Square, Ellipse } from '../models/shapes.js'
-import { ref } from 'vue'
 const port = 8080
 
 export default {
   props: {
     selected: String
-  },
-  setup(props) {
-    console.log(props.selected)
   },
   data() {
     return {
@@ -91,7 +87,7 @@ export default {
             shape.borderColor,
             shape.filledColor,
             shape.filled,
-            shape.radius
+            Math.abs(shape.radius)
           )
         } else if (shape.type == 'triangle') {
           newShape = new Triangle(
@@ -112,8 +108,8 @@ export default {
             shape.borderColor,
             shape.filledColor,
             shape.filled,
-            shape.radiusX,
-            shape.radiusY
+            Math.abs(shape.radiusX),
+            Math.abs(shape.radiusY)
           )
         }
         this.shapes.push(newShape)
@@ -313,12 +309,12 @@ export default {
       }
     },
     async undo() {
-      const response = await fetch(`http://localhost:${port}/undo`)
+      await fetch(`http://localhost:${port}/undo`)
       await this.getShapes()
       this.drawShapes()
     },
     async redo() {
-      const response = await fetch(`http://localhost:${port}/redo`)
+      await fetch(`http://localhost:${port}/redo`)
       await this.getShapes()
       this.drawShapes()
     },
@@ -358,9 +354,13 @@ export default {
 
       await this.getShapes()
       this.drawShapes()
+    },
+    async update(){
+      await this.getShapes()
+      this.drawShapes()
     }
   },
-  expose: ['applyChanges', 'drawShapes', 'getShapes'],
+  expose: ['applyChanges', 'drawShapes', 'getShapes', 'update'],
   async mounted() {
     this.c = document.getElementById('canvas')
     this.c.addEventListener('mousedown', (e) => this.mousedown(e))
