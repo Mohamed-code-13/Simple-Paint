@@ -2,7 +2,13 @@ package com.mohamedcode13.paintbackend.models;
 
 import org.springframework.stereotype.Component;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
 @Component
+@XmlRootElement(name = "AbstractShape")
+@XmlType
 public abstract class AbstractShape {
     private int id;
     private int x;
@@ -10,6 +16,8 @@ public abstract class AbstractShape {
     private int rotate;
     private String color;
     private String type;
+
+    public AbstractShape() {}
 
     public AbstractShape(int id, int x, int y, int rotate, String color, String type) {
         this.id = id;
@@ -20,26 +28,32 @@ public abstract class AbstractShape {
         this.type = type;
     }
 
+    @XmlElement
     public int getId() {
         return this.id;
     }
 
+    @XmlElement
     public int getX() {
         return x;
     }
 
+    @XmlElement
     public int getY() {
         return y;
     }
 
+    @XmlElement
     public int getRotate() {
         return rotate;
     }
 
+    @XmlElement
     public String getColor() {
         return color;
     }
 
+    @XmlElement
     public String getType() {
         return type;
     }
@@ -59,6 +73,10 @@ public abstract class AbstractShape {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public abstract AbstractShape clone();

@@ -1,7 +1,13 @@
 package com.mohamedcode13.paintbackend.models;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "Square")
 public class Square extends AbstractShape {
     private int width;
+
+    public Square() {}
 
     public Square(int id, int x, int y) {
         super(id, x, y, 0, "EEE", "square");
@@ -13,8 +19,13 @@ public class Square extends AbstractShape {
         this.width = width;
     }
 
+    @XmlElement
     public int getWidth() {
         return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     @Override
