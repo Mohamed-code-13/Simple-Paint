@@ -8,12 +8,12 @@ import java.util.Map;
 public class ShapeFactory {
     public AbstractShape createShape(int id, Map<String, Object> body) {
         String type = (String) body.get("type");
-        int x = (body.get("x") instanceof Integer) ? (int) body.get("x") : ((Double) body.get("x")).intValue();
-        int y = (body.get("y") instanceof Integer) ? (int) body.get("y") : ((Double) body.get("y")).intValue();
+        int x = getCorrectValue(body.get("x"));
+        int y = getCorrectValue(body.get("y"));
         String borderColor = (String) body.get("color1");
         String filledColor = (String) body.get("color2");
-        int length1 = (body.get("length1") instanceof Integer) ? (int) body.get("length1") : ((Double) body.get("length1")).intValue();
-        int length2 = (body.get("length2") instanceof Integer) ? (int) body.get("length2") : ((Double) body.get("length2")).intValue();
+        int length1 = getCorrectValue(body.get("length1"));
+        int length2 = getCorrectValue(body.get("length2"));
 
         switch (type) {
             case "square":
@@ -31,5 +31,14 @@ public class ShapeFactory {
             default:
                 throw new IllegalArgumentException("Unhandled shape");
         }
+    }
+
+    private int getCorrectValue(Object val) {
+        if (val instanceof Integer) {
+            return (int) val;
+        } else if (val instanceof Double) {
+            return ((Double) val).intValue();
+        }
+        throw new IllegalArgumentException("Invalid Input");
     }
 }

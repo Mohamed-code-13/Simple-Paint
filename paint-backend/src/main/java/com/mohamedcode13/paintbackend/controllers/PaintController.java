@@ -155,10 +155,14 @@ public class PaintController {
     @PostMapping(path = "/copy")
     public AbstractShape copy(@RequestBody Map<String, Object> body) {
         int curId = (int) body.get("id");
+        int x = (int) body.get("x");
+        int y = (int) body.get("y");
         int index = getShapeIndex(curId);
 
         AbstractShape shape = allShapes.get(index).clone();
         shape.setId(id++);
+        shape.setX(x);
+        shape.setY(y);
         allShapes.add(shape);
         return shape;
     }

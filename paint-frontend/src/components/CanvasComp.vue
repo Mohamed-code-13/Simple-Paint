@@ -292,7 +292,8 @@ export default {
         else if (this.selected == 'triangle')
           this.createTriangle(this.startx, this.starty, this.endx, this.endy)
         else if (this.selected == 'move')
-          this.moveShape(this.selectedShape, this.startx, this.starty, this.endx, this.endy)
+          if (this.selectedShape)
+            this.moveShape(this.selectedShape, this.startx, this.starty, this.endx, this.endy)
       }
       this.mouseDownState = false
     },
@@ -302,7 +303,7 @@ export default {
       if (this.selected == 'copy') {
         this.getSelectedShape(x, y)
       } else if (this.selected == 'paste') {
-        this.pasteShape(x, y, this.selectedShape)
+        if (this.selectedShape) this.pasteShape(x, y, this.selectedShape)
       } else if (this.selected == 'delete') {
         this.getSelectedShape(x, y)
         if (this.selectedShape) this.deleteShape(this.selectedShape)
