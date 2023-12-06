@@ -1,5 +1,6 @@
 package com.mohamedcode13.paintbackend.models;
 
+import com.fasterxml.jackson.annotation.*;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -8,6 +9,20 @@ import javax.xml.bind.annotation.XmlType;
 
 @Component
 @XmlRootElement(name = "AbstractShape")
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        visible = true,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Circle.class, name = "circle"),
+        @JsonSubTypes.Type(value = Ellipse.class, name = "ellipse"),
+        @JsonSubTypes.Type(value = Line.class, name = "line"),
+        @JsonSubTypes.Type(value = Rectangle.class, name = "rectangle"),
+        @JsonSubTypes.Type(value = Square.class, name = "square"),
+        @JsonSubTypes.Type(value = Triangle.class, name = "triangle")
+})
 @XmlType
 public abstract class AbstractShape {
     private int id;
@@ -16,6 +31,7 @@ public abstract class AbstractShape {
     private String borderColor;
     private String filledColor;
     private boolean filled;
+    @JsonProperty("type")
     private String type;
 
     public AbstractShape() {}
@@ -67,6 +83,14 @@ public abstract class AbstractShape {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public void movePosition(int dx, int dy) {

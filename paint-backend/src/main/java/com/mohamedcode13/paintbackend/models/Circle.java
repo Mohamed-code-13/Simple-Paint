@@ -1,9 +1,12 @@
 package com.mohamedcode13.paintbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Circle")
+@JsonTypeName("circle")
 public class Circle extends AbstractShape {
     private int radius;
 

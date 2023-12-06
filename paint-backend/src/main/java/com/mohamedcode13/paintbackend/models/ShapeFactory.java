@@ -8,12 +8,12 @@ import java.util.Map;
 public class ShapeFactory {
     public AbstractShape createShape(int id, Map<String, Object> body) {
         String type = (String) body.get("type");
-        int x = (int) body.get("x");
-        int y = (int) body.get("y");
+        int x = (body.get("x") instanceof Integer) ? (int) body.get("x") : ((Double) body.get("x")).intValue();
+        int y = (body.get("y") instanceof Integer) ? (int) body.get("y") : ((Double) body.get("y")).intValue();
         String borderColor = (String) body.get("color1");
         String filledColor = (String) body.get("color2");
-        int length1 = (int) body.get("length1");
-        int length2 = (int) body.get("length2");
+        int length1 = (body.get("length1") instanceof Integer) ? (int) body.get("length1") : ((Double) body.get("length1")).intValue();
+        int length2 = (body.get("length2") instanceof Integer) ? (int) body.get("length2") : ((Double) body.get("length2")).intValue();
 
         switch (type) {
             case "square":

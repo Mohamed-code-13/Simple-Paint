@@ -1,9 +1,12 @@
 package com.mohamedcode13.paintbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Triangle")
+@JsonTypeName("triangle")
 public class Triangle extends AbstractShape{
     private int base;
     private int height;

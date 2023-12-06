@@ -24,7 +24,6 @@ export default {
   methods: {
     changeParameters(values) {
       this.showDialog = false
-      console.log(values)
       this.$refs.applyChangesRef.applyChanges(values)
     },
     openDialog(args) {
@@ -32,33 +31,31 @@ export default {
       this.defaultValues = args[1]
       this.showDialog = true
     },
-    async load(){
-      const file = document.getElementById("file-input").files[0]
-      if(file!= null && (file.name.endsWith(".json") || file.name.endsWith(".xml"))){
+    async load() {
+      const file = document.getElementById('file-input').files[0]
+      if (file != null && (file.name.endsWith('.json') || file.name.endsWith('.xml'))) {
         const fileReader = new FileReader(file)
-        fileReader.onload = async (fileLoadedEvent)=>{
-          const fileContent = fileLoadedEvent.target.result;
-          if(file.name.endsWith(".json")) {
+        fileReader.onload = async (fileLoadedEvent) => {
+          const fileContent = fileLoadedEvent.target.result
+          if (file.name.endsWith('.json')) {
             await this.sendFile(fileContent, 'json')
-          }else{
+          } else {
             await this.sendFile(fileContent, 'xml')
           }
         }
-        fileReader.readAsText(file, "UTF-8");
+        fileReader.readAsText(file, 'UTF-8')
         await this.$refs.applyChanges.getShapes()
         this.$refs.applyChanges.drawShapes()
       }
-      
     },
-    async sendFile(content, format){
+    async sendFile(content, format) {
       await fetch(`http://localhost:${port}/load-${format}`, {
         method: 'POST',
-        body: content,
+        body: content
       })
     },
-    
-    async save(){
-      console.log("saving")
+
+    async save() {
       const jsonResponse = await fetch(`http://localhost:${port}/save-json`)
       let data = await jsonResponse.text()
       this.getFile('json', data)
@@ -66,15 +63,15 @@ export default {
       data = await xmlResponse.text()
       this.getFile('xml', data)
     },
-    getFile(type, data){
-      const blob = new Blob([data], {type: `text/plain`})
+    getFile(type, data) {
+      const blob = new Blob([data], { type: `text/plain` })
       const e = document.createEvent('MouseEvents'),
-      a = document.createElement('a');
-      a.download = `savefile.${type}`;
-      a.href = window.URL.createObjectURL(blob);
-      a.dataset.downloadurl = [`savefile/${type}`, a.download, a.href].join(':');
-      e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-      a.dispatchEvent(e);
+        a = document.createElement('a')
+      a.download = `savefile.${type}`
+      a.href = window.URL.createObjectURL(blob)
+      a.dataset.downloadurl = [`savefile/${type}`, a.download, a.href].join(':')
+      e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      a.dispatchEvent(e)
     }
   }
 }
@@ -182,7 +179,7 @@ export default {
         </li>
         <li>
           <div class="tool" id="clear">
-            <img width="25" height="25" src="https://img.icons8.com/ios/50/broom.png" alt="broom"/>
+            <img width="25" height="25" src="https://img.icons8.com/ios/50/broom.png" alt="broom" />
           </div>
         </li>
         <li>
@@ -237,11 +234,11 @@ export default {
           </div>
         </li>
       </div>
-      
+
       <div id="active-box">
         <span>{{ selected }}</span>
       </div>
-      <div id="file-selector"><input type="file" id="file-input" name="loadfile"></div>
+      <div id="file-selector"><input type="file" id="file-input" name="loadfile" /></div>
     </div>
     <div>
       <CanvasComp :selected="selected" @open-dialog="openDialog" ref="applyChangesRef" />
@@ -250,7 +247,7 @@ export default {
 </template>
 
 <style scoped>
-#file-selector{
+#file-selector {
   float: left;
   margin-top: 13px;
 }

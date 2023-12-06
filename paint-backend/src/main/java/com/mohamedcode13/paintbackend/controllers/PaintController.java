@@ -56,6 +56,7 @@ public class PaintController {
         int curId = (int) body.get("id");
         String borderColor = (String) body.get("color1");
         String filledColor = (String) body.get("color2");
+        boolean filled = (boolean) body.get("fill");
         int index = getShapeIndex(curId);
 
         Action action = new Action(ActionType.ChangeOneShape);
@@ -63,6 +64,7 @@ public class PaintController {
 
         allShapes.get(index).setBorderColor(borderColor);
         allShapes.get(index).setFilledColor(filledColor);
+        allShapes.get(index).setFilled(filled);
 
         action.addAfter(allShapes.get(index).clone());
         undoStack.push(action);
@@ -125,19 +127,20 @@ public class PaintController {
                 ((Rectangle) allShapes.get(index)).setHeight((int) body.get("length2"));
                 break;
             case "line":
-                ((Line) allShapes.get(index)).setEndX((int)body.get("endx"));
-                ((Line) allShapes.get(index)).setEndY((int)body.get("endy"));
+                ((Line) allShapes.get(index)).setEndX((int)body.get("length1"));
+                ((Line) allShapes.get(index)).setEndY((int)body.get("length2"));
                 break;
             case "circle":
-                ((Circle) allShapes.get(index)).setRadius((int) body.get("radius"));
+                ((Circle) allShapes.get(index)).setRadius((int) body.get("length1"));
                 break;
             case "ellipse":
-                ((Ellipse) allShapes.get(index)).setRadiusX((int)body.get("radiusx"));
-                ((Ellipse) allShapes.get(index)).setRadiusY((int)body.get("radiusy"));
+                ((Ellipse) allShapes.get(index)).setRadiusX((int)body.get("length1"));
+                ((Ellipse) allShapes.get(index)).setRadiusY((int)body.get("length2"));
                 break;
             case "triangle":
-                ((Triangle) allShapes.get(index)).setBase((int)body.get("base"));
-                ((Triangle) allShapes.get(index)).setHeight((int)body.get("height"));
+                ((Triangle) allShapes.get(index)).setBase((int)body.get("length1"));
+                ((Triangle) allShapes.get(index)).setHeight((int)body.get("length2"));
+                break;
             default:
                 throw new IllegalArgumentException("Unhandled shape");
         }
@@ -182,6 +185,8 @@ public class PaintController {
     @PostMapping(path = "/load-xml")
     public List<AbstractShape> loadXml(@RequestBody String body) {
         this.allShapes = saveLoadXML.loadXml(body);
+        this.undoStack.clear();
+        this.redoStack.clear();
         return allShapes;
     }
 
@@ -193,6 +198,8 @@ public class PaintController {
     @PostMapping(path = "/load-json")
     public List<AbstractShape> loadJson(@RequestBody String body) {
         this.allShapes = saveLoadJSON.loadJson(body);
+        this.undoStack.clear();
+        this.redoStack.clear();
         return allShapes;
     }
 
@@ -233,7 +240,8 @@ public class PaintController {
                 this.allShapes.add(action.getAfter().get(0));
                 break;
             case DeleteShape:
-                this.allShapes.remove(action.getBefore().get(0));
+                int id = action.getBefore().get(0).getId();
+                this.allShapes.remove(getShapeIndex(id));
                 break;
         }
     }

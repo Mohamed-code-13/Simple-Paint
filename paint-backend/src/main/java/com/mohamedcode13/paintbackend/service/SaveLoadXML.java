@@ -16,7 +16,7 @@ public class SaveLoadXML {
             JAXBContext ctx = JAXBContext.newInstance(AbstractShapeWrapper.class,
                     AbstractShape.class, Circle.class,
                     Ellipse.class, Line.class,
-                    Rectangle.class, Square.class);
+                    Rectangle.class, Square.class, Triangle.class);
 
             Marshaller marshaller = ctx.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -41,7 +41,7 @@ public class SaveLoadXML {
             JAXBContext ctx = JAXBContext.newInstance(AbstractShapeWrapper.class,
                     AbstractShape.class, Circle.class,
                     Ellipse.class, Line.class,
-                    Rectangle.class, Square.class);
+                    Rectangle.class, Square.class, Triangle.class);
             Unmarshaller unmarshaller = ctx.createUnmarshaller();
 
             StringReader reader = new StringReader(xmlData);
