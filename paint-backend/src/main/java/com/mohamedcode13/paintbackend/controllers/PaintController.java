@@ -159,10 +159,18 @@ public class PaintController {
         int y = (int) body.get("y");
         int index = getShapeIndex(curId);
 
+        Action action = new Action(ActionType.AddShape);
+        action.addBefore(null);
+
         AbstractShape shape = allShapes.get(index).clone();
         shape.setId(id++);
         shape.setX(x);
         shape.setY(y);
+
+        action.addAfter(shape.clone());
+        undoStack.push(action);
+        redoStack.clear();
+
         allShapes.add(shape);
         return shape;
     }
