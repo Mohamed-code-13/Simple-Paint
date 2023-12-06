@@ -26,6 +26,8 @@ public class ShapeFactory {
                 return new Circle(id, x, y, borderColor, filledColor, "circle", length1);
             case "ellipse":
                 return new Ellipse(id, x, y, borderColor, filledColor, "ellipse", length1, length2);
+            case "triangle":
+                return new Triangle(id, x, y, borderColor, filledColor, "triangle", length1, length2);
             default:
                 throw new IllegalArgumentException("Unhandled shape");
         }
