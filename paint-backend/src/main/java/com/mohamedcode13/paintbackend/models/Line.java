@@ -5,31 +5,37 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Line")
 public class Line extends AbstractShape {
-    private int width;
+    private int endX;
+    private int endY;
 
     public Line() {}
 
-    public Line(int id, int x, int y) {
-        super(id, x, y, 0, "EEE", "line");
-        this.width = 100;
-    }
-
-    public Line(int id, int x, int y, int rotate, String color, String type, int width) {
-        super(id, x, y, rotate, color, type);
-        this.width = width;
+    public Line(int id, int x, int y, String borderColor, String filledColor, String type, int endX, int endY) {
+        super(id, x, y, borderColor, filledColor, type);
+        this.endX = endX;
+        this.endY = endY;
     }
 
     @XmlElement
-    public int getWidth() {
-        return width;
+    public int getEndX() {
+        return endX;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    @XmlElement
+    public int getEndY() {
+        return endY;
+    }
+
+    public void setEndX(int endX) {
+        this.endX = endX;
+    }
+
+    public void setEndY(int endY) {
+        this.endY = endY;
     }
 
     @Override
     public AbstractShape clone() {
-        return new Line(getId(), getX(), getY(), getRotate(), getColor(), getType(), getWidth());
+        return new Line(getId(), getX(), getY(), getBorderColor(), getFilledColor(), getType(), getEndX(), getEndY());
     }
 }

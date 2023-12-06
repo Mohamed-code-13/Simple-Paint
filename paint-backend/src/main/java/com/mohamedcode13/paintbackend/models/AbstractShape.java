@@ -13,18 +13,18 @@ public abstract class AbstractShape {
     private int id;
     private int x;
     private int y;
-    private int rotate;
-    private String color;
+    private String borderColor;
+    private String filledColor;
     private String type;
 
     public AbstractShape() {}
 
-    public AbstractShape(int id, int x, int y, int rotate, String color, String type) {
+    public AbstractShape(int id, int x, int y, String borderColor, String filledColor, String type) {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.rotate = rotate;
-        this.color = color;
+        this.borderColor = borderColor;
+        this.filledColor = filledColor;
         this.type = type;
     }
 
@@ -44,13 +44,13 @@ public abstract class AbstractShape {
     }
 
     @XmlElement
-    public int getRotate() {
-        return rotate;
+    public String getBorderColor() {
+        return borderColor;
     }
 
     @XmlElement
-    public String getColor() {
-        return color;
+    public String getFilledColor() {
+        return filledColor;
     }
 
     @XmlElement
@@ -67,12 +67,12 @@ public abstract class AbstractShape {
         this.y = y;
     }
 
-    public void setRotate(int rotate) {
-        this.rotate = rotate;
+    public void setBorderColor(String borderColor) {
+        this.borderColor = borderColor;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setFilledColor(String filledColor) {
+        this.filledColor = filledColor;
     }
 
     public void setType(String type) {

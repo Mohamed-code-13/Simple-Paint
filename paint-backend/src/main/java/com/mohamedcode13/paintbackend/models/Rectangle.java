@@ -10,14 +10,8 @@ public class Rectangle extends AbstractShape {
 
     public Rectangle() {}
 
-    public Rectangle(int id, int x, int y) {
-        super(id, x, y,0,"EEE", "rectangle");
-        this.width = 100;
-        this.height = 60;
-    }
-
-    public Rectangle(int id, int x, int y, int rotate, String color, String type, int width, int height) {
-        super(id, x, y, rotate, color, type);
+    public Rectangle(int id, int x, int y, String borderColor, String filledColor, String type, int width, int height) {
+        super(id, x, y, borderColor, filledColor, type);
         this.width = width;
         this.height = height;
     }
@@ -42,6 +36,6 @@ public class Rectangle extends AbstractShape {
 
     @Override
     public AbstractShape clone() {
-        return new Rectangle(getId(), getX(), getY(), getRotate(), getColor(), getType(), getWidth(), getHeight());
+        return new Rectangle(getId(), getX(), getY(), getBorderColor(), getFilledColor(), getType(), getWidth(), getHeight());
     }
 }

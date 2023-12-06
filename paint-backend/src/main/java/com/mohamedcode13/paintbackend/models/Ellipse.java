@@ -1,48 +1,41 @@
 package com.mohamedcode13.paintbackend.models;
 
-import javax.swing.event.EventListenerList;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Ellipse")
 public class Ellipse extends AbstractShape {
-    private int bigRadius;
-    private int smallRadius;
+    private int radiusX;
+    private int radiusY;
 
     public Ellipse() {}
 
-    public Ellipse(int id, int x, int y) {
-        super(id, x, y,  0, "#EEE", "ellipse");
-        this.bigRadius = 100;
-        this.smallRadius = 50;
-    }
-
-    public Ellipse(int id, int x, int y, int rotate, String color, String type, int bigRadius, int smallRadius) {
-        super(id, x, y,  rotate, color, type);
-        this.bigRadius = bigRadius;
-        this.smallRadius = smallRadius;
+    public Ellipse(int id, int x, int y, String borderColor, String filledColor, String type, int bigRadius, int smallRadius) {
+        super(id, x, y, borderColor, filledColor, type);
+        this.radiusX = bigRadius;
+        this.radiusY = smallRadius;
     }
 
     @XmlElement
-    public int getBigRadius() {
-        return bigRadius;
+    public int getRadiusX() {
+        return radiusX;
     }
 
     @XmlElement
-    public int getSmallRadius() {
-        return smallRadius;
+    public int getRadiusY() {
+        return radiusY;
     }
 
-    public void setBigRadius(int bigRadius) {
-        this.bigRadius = bigRadius;
+    public void setRadiusX(int radiusX) {
+        this.radiusX = radiusX;
     }
 
-    public void setSmallRadius(int smallRadius) {
-        this.smallRadius = smallRadius;
+    public void setRadiusY(int radiusY) {
+        this.radiusY = radiusY;
     }
 
     @Override
     public AbstractShape clone() {
-        return new Ellipse(getId(), getX(), getY(), getRotate(), getColor(), getType(), getBigRadius(), getSmallRadius());
+        return new Ellipse(getId(), getX(), getY(), getBorderColor(), getFilledColor(), getType(), getRadiusX(), getRadiusY());
     }
 }

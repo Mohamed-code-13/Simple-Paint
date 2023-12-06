@@ -9,13 +9,8 @@ public class Circle extends AbstractShape {
 
     public Circle() {}
 
-    public Circle(int id, int x, int y) {
-        super(id, x, y, 0, "#EEE", "circle");
-        this.radius = 50;
-    }
-
-    public Circle(int id, int x, int y, int rotate, String color, String type, int radius) {
-        super(id, x, y, rotate, color, type);
+    public Circle(int id, int x, int y, String borderColor, String filledColor, String type, int radius) {
+        super(id, x, y, borderColor, filledColor, type);
         this.radius = radius;
     }
 
@@ -30,6 +25,6 @@ public class Circle extends AbstractShape {
 
     @Override
     public AbstractShape clone() {
-        return new Circle(getId(), getX(), getY(), getRotate(), getColor(), getType(), getRadius());
+        return new Circle(getId(), getX(), getY(), getBorderColor(), getFilledColor(), getType(), getRadius());
     }
 }
