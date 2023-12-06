@@ -1,8 +1,14 @@
+<!-- eslint-disable no-unused-vars -->
 <script>
 import { ref } from 'vue'
 import CanvasComp from './components/CanvasComp.vue'
 import DialogComp from './components/DialogComp.vue'
-const save = () => {}
+
+const port = 8080
+const save = async () => {
+  const jsonResponse = await fetch(`http://localhost:${port}/save-json`)
+  //download(JSON.stringify(jsonResponse), "save_json.json", "text/plain");
+}
 const load = () => {}
 const applyChangesRef = ref(0)
 
@@ -23,7 +29,7 @@ export default {
     changeParameters(values) {
       this.showDialog = false
       console.log(values)
-      this.$refs.applyChangesRef.applyChanges('23434')
+      this.$refs.applyChangesRef.applyChanges(values)
     },
     openDialog(args) {
       this.requirements = args[0]

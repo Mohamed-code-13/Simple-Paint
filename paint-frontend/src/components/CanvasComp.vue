@@ -33,9 +33,6 @@ export default {
     }
   },
   methods: {
-    sayHello() {
-      console.log('Hello')
-    },
     drawShapes() {
       this.ctx.clearRect(0, 0, this.c.width, this.c.height)
       for (let i = 0; i < shapes.value.length; i++) {
@@ -48,7 +45,6 @@ export default {
       return color.value
     },
     async getShapes() {
-      console.log('getting shapes')
       const response = await fetch(`http://localhost:${port}/all-shapes`)
       const shapesList = response.json()
 
@@ -351,14 +347,13 @@ export default {
       }
     },
     async undo() {
-      const response = await fetch(`http://localhost:${port}/undo`).then((response) =>
-        console.log(response.ok)
-      )
+      const response = await fetch(`http://localhost:${port}/undo`)
+      console.log(response.ok)
+      
     },
     async redo() {
-      const response = await fetch(`http://localhost:${port}/redo`).then((response) =>
-        console.log(response.ok)
-      )
+      const response = await fetch(`http://localhost:${port}/redo`)
+      console.log(response.ok)
     },
     async applyChanges(newValues) {
       const shape = selectedShape.value
@@ -390,41 +385,41 @@ export default {
       this.getShapes()
       this.drawShapes()
     },
-    convertObjectToMap(shape, newValues) {
-      let length1, length2
-      switch (shape.type) {
-        case 'square':
-          length1 = shape.length
-          length2 = 0
-          break
-        case 'line':
-          length1 = shape.endx
-          length2 = shape.endy
-          break
-        case 'ellipse':
-          length1 = shape.radiusx
-          length2 = shape.radiusy
-          break
-        case 'triangle':
-          length1 = shape.base
-          length2 = shape.height
-          break
-        case 'circle':
-          length1 = shape.radius
-          length2 = 0
-          break
-        case 'rectangle':
-          length1 = shape.width
-          length2 = shape.height
-          break
-      }
+    // convertObjectToMap(shape, newValues) {
+    //   let length1, length2
+    //   switch (shape.type) {
+    //     case 'square':
+    //       length1 = shape.length
+    //       length2 = 0
+    //       break
+    //     case 'line':
+    //       length1 = shape.endx
+    //       length2 = shape.endy
+    //       break
+    //     case 'ellipse':
+    //       length1 = shape.radiusx
+    //       length2 = shape.radiusy
+    //       break
+    //     case 'triangle':
+    //       length1 = shape.base
+    //       length2 = shape.height
+    //       break
+    //     case 'circle':
+    //       length1 = shape.radius
+    //       length2 = 0
+    //       break
+    //     case 'rectangle':
+    //       length1 = shape.width
+    //       length2 = shape.height
+    //       break
+    //   }
 
-      return {
-        id: shape.id,
-        length1: length1,
-        length2: length2
-      }
-    }
+    //   return {
+    //     id: shape.id,
+    //     length1: length1,
+    //     length2: length2
+    //   }
+    // }
   },
   expose: ['applyChanges'],
   mounted() {
