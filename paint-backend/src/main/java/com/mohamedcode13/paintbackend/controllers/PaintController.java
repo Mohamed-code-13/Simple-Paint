@@ -84,6 +84,11 @@ public class PaintController {
         action.addBefore(allShapes.get(index).clone());
 
         allShapes.get(index).movePosition(dx, dy);
+        if (allShapes.get(index).getType().equals("line")) {
+            Line line = (Line)allShapes.get(index);
+            line.setEndX(line.getEndX() + dx);
+            line.setEndY(line.getEndY() + dy);
+        }
 
         action.addAfter(allShapes.get(index).clone());
         undoStack.push(action);
