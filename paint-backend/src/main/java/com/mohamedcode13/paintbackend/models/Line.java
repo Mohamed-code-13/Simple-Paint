@@ -11,7 +11,7 @@ public class Line extends AbstractShape {
 
     public Line(int id, int x, int y) {
         super(id, x, y, 0, "EEE", "line");
-        this.width = 50;
+        this.width = 100;
     }
 
     public Line(int id, int x, int y, int rotate, String color, String type, int width) {

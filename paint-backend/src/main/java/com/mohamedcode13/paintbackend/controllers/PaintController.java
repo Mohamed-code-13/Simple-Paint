@@ -128,6 +128,12 @@ public class PaintController {
         return allShapes.get(index);
     }
 
+    @GetMapping(path = "/clear")
+    public boolean clear() {
+        allShapes.clear();
+        return true;
+    }
+
     @PostMapping(path = "/resize")
     public boolean resize(@RequestBody Map<String, Object> body) {
         int curId = (int) body.get("id");
@@ -175,6 +181,16 @@ public class PaintController {
         return true;
     }
 
+    @GetMapping(path = "/undo")
+    public boolean undo() {
+        return true;
+    }
+
+    @GetMapping(path = "/redo")
+    public boolean redo() {
+        return true;
+    }
+
     @PostMapping(path = "/copy")
     public AbstractShape copy(@RequestBody Map<String, Object> body) {
         int curId = (int) body.get("id");
@@ -182,6 +198,8 @@ public class PaintController {
 
         AbstractShape shape = allShapes.get(index).clone();
         shape.setId(id++);
+        shape.setPosition(20, 20);
+        
         allShapes.add(shape);
         return shape;
     }

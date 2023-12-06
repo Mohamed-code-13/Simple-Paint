@@ -13,7 +13,7 @@ public class Rectangle extends AbstractShape {
     public Rectangle(int id, int x, int y) {
         super(id, x, y,0,"EEE", "rectangle");
         this.width = 100;
-        this.height = 50;
+        this.height = 60;
     }
 
     public Rectangle(int id, int x, int y, int rotate, String color, String type, int width, int height) {

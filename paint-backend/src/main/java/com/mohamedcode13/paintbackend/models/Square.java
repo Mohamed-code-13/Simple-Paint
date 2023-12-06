@@ -11,7 +11,7 @@ public class Square extends AbstractShape {
 
     public Square(int id, int x, int y) {
         super(id, x, y, 0, "EEE", "square");
-        this.width = 50;
+        this.width = 70;
     }
 
     public Square(int id, int x, int y, int rotate, String color, String type, int width) {
