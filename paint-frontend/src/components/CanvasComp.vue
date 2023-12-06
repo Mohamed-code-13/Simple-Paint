@@ -13,7 +13,6 @@ const port = 8080
 
 let shapes = ref([])
 let selectedShape = ref(null)
-let id = ref(0)
 let mouseDownState = ref(false)
 let startx = ref(0)
 let starty = ref(0)
@@ -142,61 +141,34 @@ export default {
         .then(this.drawShapes())
     },
     createLine(x, y, tox, toy) {
-      const line = new Line(id.value, x, y, this.getColor(), '#FFFFFF', false, tox, toy)
-      id.value += 1
-      line.draw(this.ctx)
-      shapes.value.push(line)
+      this.createShape(x, y, 'line', this.getColor(), '#FFFFFF', tox, toy)
     },
     createSquare(x, y, endx) {
       let dx = endx - x
-      const square = new Square(id.value, x, y, this.getColor(), '#FFFFFF', false, dx)
-      id.value += 1
-      square.draw(this.ctx)
-      shapes.value.push(square)
+      this.createShape(x, y, 'square', this.getColor(), '#FFFFFF', dx, 0)
     },
     createRectangle(x, y, endx, endy) {
       let dx = endx - x
       let dy = endy - y
-      const rectangle = new Rectangle(id.value, x, y, this.getColor(), '#FFFFFF', false, dx, dy)
-      id.value += 1
-      rectangle.draw(this.ctx)
-      shapes.value.push(rectangle)
+      this.createShape(x, y, 'rectangle', this.getColor(), '#FFFFFF', dx, dy)
     },
     createCircle(x, y, endx, endy) {
       let dx = endx - x
       let dy = endy - y
       let radius = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))
-      const circle = new Circle(id.value, x, y, this.getColor(), '#FFFFFF', false, radius)
-      id.value += 1
-      circle.draw(this.ctx)
-      shapes.value.push(circle)
+      this.createShape(x, y, 'circle', this.getColor(), '#FFFFFF', radius)
     },
     createEllipse(x, y, endx, endy) {
       let dx = endx - x
       let dy = endy - y
       let width = Math.abs(dx)
       let height = Math.abs(dy)
-      const ellipse = new Ellipse(
-        id.value,
-        x + dx / 2,
-        y + dy / 2,
-        this.getColor(),
-        '#FFFFFF',
-        false,
-        width / 2,
-        height / 2
-      )
-      id.value += 1
-      ellipse.draw(this.ctx)
-      shapes.value.push(ellipse)
+      this.createShape(x + dx / 2, y + dy / 2, 'ellipse', this.getColor(), '#FFFFFF', width / 2, height / 2)
     },
     createTriangle(x, y, endx, endy) {
       let dx = endx - x
       let dy = endy - y
-      const triangle = new Triangle(id.value, x, y, this.getColor(), '#FFFFFF', false, dx, dy)
-      id.value += 1
-      triangle.draw(this.ctx)
-      shapes.value.push(triangle)
+      this.createShape(x, y, 'triangle', this.getColor(), '#FFFFFF', dx, dy)
     },
     async deleteShape(shape) {
       const id = shape.id
