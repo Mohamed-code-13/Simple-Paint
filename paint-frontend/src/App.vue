@@ -181,6 +181,11 @@ export default {
           </div>
         </li>
         <li>
+          <div class="tool" id="clear">
+            <img width="25" height="25" src="https://img.icons8.com/ios/50/broom.png" alt="broom"/>
+          </div>
+        </li>
+        <li>
           <div class="tool" @click="selected = 'move'">
             <img width="25" height="25" src="https://img.icons8.com/ios/50/move.png" alt="move" />
           </div>
