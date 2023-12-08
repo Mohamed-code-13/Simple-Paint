@@ -16,7 +16,7 @@ Welcome to the Simple Paint App repository! This is a full-stack web application
 - **Drawing Shapes:** Create and draw various shapes on the canvas.
 - **Coloring Shapes:** Customize the color of each shape.
 - **Move and Resize:** Interactively move and resize shapes on the canvas.
-- **Undo and Redo:** Easily undo and redo drawing actions.
+- **Undo and Redo:** Easily undo and redo drawing actions ***in an efficient way***.
 - **Delete Shapes:** Remove unwanted shapes from the canvas.
 - **Clear Canvas:** Clear the entire canvas to start fresh.
 - **Save/Load as JSON or XML:** Save the current drawing as a JSON or XML file and load drawings from JSON or XML files.
